@@ -3,8 +3,7 @@ import java.util.Scanner;
 public class Codsworth {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String[] strTasks = new String[101];
-        boolean[] isTasksCompleted = new boolean[101];
+        Task[] tasks = new Task[101];
         int i = 1;
         boolean isBye = false;
 
@@ -21,11 +20,7 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Here are the tasks in your list:");
                     for (int j = 1; j < i; j++) {
-                        if (isTasksCompleted[j]) {
-                            System.out.println("    " + j + ". [X] " + strTasks[j]);
-                        } else {
-                            System.out.println("    " + j + ". [ ] " + strTasks[j]);
-                        }
+                        System.out.println(tasks[j].getDescription());
                     }
                     System.out.println("    ____________________________________________________________");
                     break;
@@ -34,18 +29,18 @@ public class Codsworth {
                     int intMarked = Integer.parseInt(strInput.split(" ")[1]);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Nice! I've marked this task as done:");
-                    System.out.println("    " + intMarked + ". [X] " + strTasks[intMarked]);
+                    tasks[intMarked].setDone();
+                    System.out.println("    " + tasks[intMarked].getDescription());
                     System.out.println("    ____________________________________________________________");
-                    isTasksCompleted[intMarked] = true;
                     break;
 
                 case "unmark" :
-                    int inUnmarked = Integer.parseInt(strInput.split(" ")[1]);
+                    int intUnmarked = Integer.parseInt(strInput.split(" ")[1]);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    OK, I've marked this task as not done yet:");
-                    System.out.println("    " + inUnmarked + ". [ ] " + strTasks[inUnmarked]);
+                    tasks[intUnmarked].setUndone();
+                    System.out.println("    " + tasks[intUnmarked].getDescription());
                     System.out.println("    ____________________________________________________________");
-                    isTasksCompleted[inUnmarked] = false;
                     break;
 
                 case "bye":
@@ -56,8 +51,8 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    added: " + strInput);
                     System.out.println("    ____________________________________________________________");
-                    strTasks[i] = strInput;
-                    isTasksCompleted[i] = false;
+                    Task temp = new Task(strInput);
+                    tasks[i] = temp;
                     i++;
                     break;
             }
