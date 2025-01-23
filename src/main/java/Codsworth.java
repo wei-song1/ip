@@ -5,11 +5,14 @@ public class Codsworth {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Task[] tasks = new Task[101];
-        int i = 1;
-        int intMarked;
-        String strTaskName;
-        String strDate;
-        String strEndDate;
+
+        int i = 1; // Number of tasks
+        int intMarked; // Which task is marked to be done/undone
+
+        String strTaskName; // Name of task
+        String strDate; // Deadline's by date/Event's from date
+        String strEndDate; // Event's to date
+
         boolean isBye = false;
 
         System.out.println("    ____________________________________________________________");
@@ -44,7 +47,7 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    OK, I've marked this task as not done yet:");
                     tasks[intMarked].setUndone();
-                    System.out.println("    " + tasks[intMarked].toString());
+                    System.out.println("      " + tasks[intMarked].toString());
                     System.out.println("    ____________________________________________________________");
                     break;
 
@@ -53,7 +56,7 @@ public class Codsworth {
                     tasks[i] = new ToDo(strTaskName);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("    " + tasks[i].toString());
+                    System.out.println("      " + tasks[i].toString());
                     System.out.println("    Now you have " + i + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
                     i++;
@@ -65,7 +68,7 @@ public class Codsworth {
                     tasks[i] = new Deadline(strTaskName, strDate);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("    " + tasks[i].toString());
+                    System.out.println("      " + tasks[i].toString());
                     System.out.println("    Now you have " + i + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
                     i++;
@@ -78,7 +81,7 @@ public class Codsworth {
                     tasks[i] = new Event(strTaskName, strDate, strEndDate);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("    " + tasks[i].toString());
+                    System.out.println("      " + tasks[i].toString());
                     System.out.println("    Now you have " + i + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
                     i++;
@@ -88,14 +91,6 @@ public class Codsworth {
                     isBye = true;
                     break;
 
-//                default:
-//                    System.out.println("    ____________________________________________________________");
-//                    System.out.println("    added: " + strInput);
-//                    System.out.println("    ____________________________________________________________");
-//                    Task temp = new Task(strInput);
-//                    tasks[i] = temp;
-//                    i++;
-//                    break;
                 default:
                     break;
             }
