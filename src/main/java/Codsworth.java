@@ -1,12 +1,12 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Codsworth {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Task[] tasks = new Task[101];
+        ArrayList<Task> taskList = new ArrayList<Task>();
 
-        int i = 1; // Number of tasks
         int intMarked; // Which task is marked to be done/undone
 
         String strTaskName; // Name of task
@@ -27,64 +27,74 @@ public class Codsworth {
                 case "list":
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Here are the tasks in your list:");
-                    for (int j = 1; j < i; j++) {
-                        System.out.println("    " + j + "." + tasks[j].toString());
+                    for (int j = 0; j < taskList.size(); j++) {
+                        System.out.println("    " + (j + 1) + "." + taskList.get(j).toString());
                     }
                     System.out.println("    ____________________________________________________________");
                     break;
 
                 case "mark":
-                    intMarked = Integer.parseInt(strInput.split(" ")[1]);
+                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Nice! I've marked this task as done:");
-                    tasks[intMarked].setDone();
-                    System.out.println("    " + tasks[intMarked].toString());
+                    taskList.get(intMarked).setDone();
+                    System.out.println("    " + taskList.get(intMarked).toString());
                     System.out.println("    ____________________________________________________________");
                     break;
 
                 case "unmark":
-                    intMarked = Integer.parseInt(strInput.split(" ")[1]);
+                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    OK, I've marked this task as not done yet:");
-                    tasks[intMarked].setUndone();
-                    System.out.println("      " + tasks[intMarked].toString());
+                    taskList.get(intMarked).setUndone();
+                    System.out.println("    " + taskList.get(intMarked).toString());
                     System.out.println("    ____________________________________________________________");
                     break;
 
                 case "todo":
                     strTaskName = strInput.replaceFirst("todo ","");
-                    tasks[i] = new ToDo(strTaskName);
+                    Task temp = new ToDo(strTaskName);
+                    taskList.add(temp);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + tasks[i].toString());
-                    System.out.println("    Now you have " + i + " tasks in the list.");
+                    System.out.println("      " + temp.toString());
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
-                    i++;
                     break;
 
                 case "deadline":
                     strTaskName = strInput.split(" /by ")[0].replaceFirst("deadline ","");
                     strDate = strInput.split(" /by ")[1];
-                    tasks[i] = new Deadline(strTaskName, strDate);
+                    Task temp1 = new Deadline(strTaskName, strDate);
+                    taskList.add(temp1);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + tasks[i].toString());
-                    System.out.println("    Now you have " + i + " tasks in the list.");
+                    System.out.println("      " + temp1.toString());
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
-                    i++;
                     break;
 
                 case "event":
                     strTaskName = strInput.split(" /")[0].replaceFirst("event ","");
                     strDate = strInput.split(" /")[1].replaceFirst("from ","");
                     strEndDate = strInput.split(" /")[2].replaceFirst("to ","");
-                    tasks[i] = new Event(strTaskName, strDate, strEndDate);
+                    Task temp2 = new Event(strTaskName, strDate, strEndDate);
+                    taskList.add(temp2);
                     System.out.println("    ____________________________________________________________");
                     System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + tasks[i].toString());
-                    System.out.println("    Now you have " + i + " tasks in the list.");
+                    System.out.println("      " + temp2.toString());
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
                     System.out.println("    ____________________________________________________________");
-                    i++;
+                    break;
+
+                case "delete":
+                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    Noted. I've removed this task:");
+                    System.out.println("    " + taskList.get(intMarked).toString());
+                    taskList.remove(intMarked);
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+                    System.out.println("    ____________________________________________________________");
                     break;
 
                 case "bye":
