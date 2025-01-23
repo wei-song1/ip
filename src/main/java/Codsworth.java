@@ -1,23 +1,64 @@
+import CodsworthExceptions.CodsworthOutOfBoundsException;
+import CodsworthExceptions.CodsworthWrongFormatException;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Codsworth {
-    enum Operation {
-        LIST,
-        MARK,
-        UNMARK,
-        DELETE,
-        TODO,
-        DEADLINE,
-        EVENT,
-        BYE
+    private static final ArrayList<Task> taskList = new ArrayList<>();
+//    enum Operation {
+//        LIST,
+//        MARK,
+//        UNMARK,
+//        DELETE,
+//        TODO,
+//        DEADLINE,
+//        EVENT,
+//        BYE
+//    }
+    private static void printTaskList() {
+        System.out.println("    ____________________________________________________________");
+        System.out.println("    Here are the tasks in your list:");
+        for (int j = 0; j < taskList.size(); j++) {
+            System.out.println("    " + (j + 1) + "." + taskList.get(j).toString());
+        }
+        System.out.println("    ____________________________________________________________");
+    }
+
+    private static void modifyTask(String input, String operation) throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
+        try {
+            int intMarked = Integer.parseInt(input) - 1;
+            if (intMarked < 0 || intMarked >= taskList.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            System.out.println("    ____________________________________________________________");
+            if (operation.equals("delete")) { // Delete Command
+                System.out.println("    Noted. I've removed this task:");
+                System.out.println("    " + taskList.get(intMarked).toString());
+                taskList.remove(intMarked);
+                System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+            } else {
+                if (operation.equals("mark")) { // Mark Command
+                    System.out.println("    Nice! I've marked this task as done:");
+                    taskList.get(intMarked).setDone();
+                } else if (operation.equals("unmark")) { // Unmark Command
+                    System.out.println("    OK, I've marked this task as not done yet:");
+                    taskList.get(intMarked).setUndone();
+                }
+                System.out.println("    " + taskList.get(intMarked).toString());
+            }
+            System.out.println("    ____________________________________________________________");
+
+        } catch (IndexOutOfBoundsException exception) {
+            throw new CodsworthOutOfBoundsException();
+        } catch (NumberFormatException exception) {
+            throw new CodsworthWrongFormatException();
+        }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<Task> taskList = new ArrayList<>();
-
-        int intMarked; // Which task is marked to be done/undone
 
         String strTaskName; // Name of task
         String strDate; // Deadline's by date/Event's from date
@@ -33,46 +74,26 @@ public class Codsworth {
         while(!isBye) {
             String strInput = sc.nextLine();
             String strCommand = strInput.split(" ")[0];
-            Operation command = Operation.valueOf(strCommand.toUpperCase());
-            switch (command) {
-                case LIST:
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Here are the tasks in your list:");
-                    for (int j = 0; j < taskList.size(); j++) {
-                        System.out.println("    " + (j + 1) + "." + taskList.get(j).toString());
+            String strRest = strInput.replace(strCommand + " ", "");
+//            Operation command = Operation.valueOf(strCommand.toUpperCase());
+
+            switch (strCommand) {
+                case "list":
+                    printTaskList();
+                    break;
+
+                case "mark":
+                case "unmark":
+                case "delete":
+                    try {
+                        modifyTask(strRest, strCommand);
+                    } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
+                        //noinspection ThrowablePrintedToSystemOut
+                        System.out.println(e);
                     }
-                    System.out.println("    ____________________________________________________________");
                     break;
 
-                case MARK:
-                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Nice! I've marked this task as done:");
-                    taskList.get(intMarked).setDone();
-                    System.out.println("    " + taskList.get(intMarked).toString());
-                    System.out.println("    ____________________________________________________________");
-                    break;
-
-                case UNMARK:
-                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    OK, I've marked this task as not done yet:");
-                    taskList.get(intMarked).setUndone();
-                    System.out.println("    " + taskList.get(intMarked).toString());
-                    System.out.println("    ____________________________________________________________");
-                    break;
-
-                case DELETE:
-                    intMarked = Integer.parseInt(strInput.split(" ")[1]) - 1;
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Noted. I've removed this task:");
-                    System.out.println("    " + taskList.get(intMarked).toString());
-                    taskList.remove(intMarked);
-                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
-                    System.out.println("    ____________________________________________________________");
-                    break;
-
-                case TODO:
+                case "todo":
                     strTaskName = strInput.replaceFirst("todo ","");
                     Task temp = new ToDo(strTaskName);
                     taskList.add(temp);
@@ -83,7 +104,7 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     break;
 
-                case DEADLINE:
+                case "deadline":
                     strTaskName = strInput.split(" /by ")[0].replaceFirst("deadline ","");
                     strDate = strInput.split(" /by ")[1];
                     Task temp1 = new Deadline(strTaskName, strDate);
@@ -95,7 +116,7 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     break;
 
-                case EVENT:
+                case "event":
                     strTaskName = strInput.split(" /")[0].replaceFirst("event ","");
                     strDate = strInput.split(" /")[1].replaceFirst("from ","");
                     strEndDate = strInput.split(" /")[2].replaceFirst("to ","");
@@ -108,11 +129,14 @@ public class Codsworth {
                     System.out.println("    ____________________________________________________________");
                     break;
 
-                case BYE:
+                case "bye":
                     isBye = true;
                     break;
 
                 default:
+                    System.out.println("    ____________________________________________________________");
+                    System.out.println("    Please input a valid command. Commands: mark unmark todo event deadline delete");
+                    System.out.println("    ____________________________________________________________");
                     break;
             }
         }
