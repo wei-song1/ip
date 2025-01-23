@@ -1,21 +1,10 @@
-import CodsworthExceptions.CodsworthOutOfBoundsException;
-import CodsworthExceptions.CodsworthWrongFormatException;
+import CodsworthExceptions.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Codsworth {
     private static final ArrayList<Task> taskList = new ArrayList<>();
-//    enum Operation {
-//        LIST,
-//        MARK,
-//        UNMARK,
-//        DELETE,
-//        TODO,
-//        DEADLINE,
-//        EVENT,
-//        BYE
-//    }
     private static void printTaskList() {
         System.out.println("    ____________________________________________________________");
         System.out.println("    Here are the tasks in your list:");
@@ -33,16 +22,22 @@ public class Codsworth {
             }
 
             System.out.println("    ____________________________________________________________");
-            if (operation.equals("delete")) { // Delete Command
+
+            // Delete Command
+            if (operation.equals("delete")) {
                 System.out.println("    Noted. I've removed this task:");
                 System.out.println("    " + taskList.get(intMarked).toString());
                 taskList.remove(intMarked);
                 System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
             } else {
-                if (operation.equals("mark")) { // Mark Command
+
+                // Mark Command
+                if (operation.equals("mark")) {
                     System.out.println("    Nice! I've marked this task as done:");
                     taskList.get(intMarked).setDone();
-                } else if (operation.equals("unmark")) { // Unmark Command
+
+                // Unmark Command
+                } else if (operation.equals("unmark")) {
                     System.out.println("    OK, I've marked this task as not done yet:");
                     taskList.get(intMarked).setUndone();
                 }
@@ -50,6 +45,7 @@ public class Codsworth {
             }
             System.out.println("    ____________________________________________________________");
 
+        // Exceptions
         } catch (IndexOutOfBoundsException exception) {
             throw new CodsworthOutOfBoundsException();
         } catch (NumberFormatException exception) {
@@ -57,12 +53,46 @@ public class Codsworth {
         }
     }
 
+    private static void createTask(String input, String operation) {
+        try {
+            Task temp = null;
+
+
+            // ToDo
+            if (operation.equals("todo")) {
+                temp = new ToDo(input);
+
+            // Deadline
+            } else if (operation.equals("deadline")) {
+                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ","");
+                String strDate = input.split(" /by ")[1];
+                temp = new Deadline(strTaskName, strDate);
+
+            // Event
+            } else if (operation.equals("event")) {
+                String strTaskName = input.split(" /")[0].replaceFirst("event ","");
+                String fromDate = input.split(" /")[1].replaceFirst("from ","");
+                String toDate = input.split(" /")[2].replaceFirst("to ","");
+                temp = new Event(strTaskName, fromDate, toDate);
+            }
+
+            taskList.add(temp);
+            System.out.println("    ____________________________________________________________");
+            System.out.println("    Got it. I've added this task:");
+            System.out.println("      " + temp);
+            System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+            System.out.println("    ____________________________________________________________");
+
+        // Exception
+        } catch (CodsworthMissingInputException e) {
+            System.out.println(e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new CodsworthInvalidDateException();
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        String strTaskName; // Name of task
-        String strDate; // Deadline's by date/Event's from date
-        String strEndDate; // Event's to date
 
         boolean isBye = false;
 
@@ -74,8 +104,7 @@ public class Codsworth {
         while(!isBye) {
             String strInput = sc.nextLine();
             String strCommand = strInput.split(" ")[0];
-            String strRest = strInput.replace(strCommand + " ", "");
-//            Operation command = Operation.valueOf(strCommand.toUpperCase());
+            String strRest = strInput.replaceFirst(strCommand + " ", "");
 
             switch (strCommand) {
                 case "list":
@@ -88,45 +117,23 @@ public class Codsworth {
                     try {
                         modifyTask(strRest, strCommand);
                     } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
-                        //noinspection ThrowablePrintedToSystemOut
                         System.out.println(e);
                     }
                     break;
 
                 case "todo":
-                    strTaskName = strInput.replaceFirst("todo ","");
-                    Task temp = new ToDo(strTaskName);
-                    taskList.add(temp);
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + temp);
-                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
-                    System.out.println("    ____________________________________________________________");
-                    break;
-
                 case "deadline":
-                    strTaskName = strInput.split(" /by ")[0].replaceFirst("deadline ","");
-                    strDate = strInput.split(" /by ")[1];
-                    Task temp1 = new Deadline(strTaskName, strDate);
-                    taskList.add(temp1);
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + temp1);
-                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
-                    System.out.println("    ____________________________________________________________");
-                    break;
-
                 case "event":
-                    strTaskName = strInput.split(" /")[0].replaceFirst("event ","");
-                    strDate = strInput.split(" /")[1].replaceFirst("from ","");
-                    strEndDate = strInput.split(" /")[2].replaceFirst("to ","");
-                    Task temp2 = new Event(strTaskName, strDate, strEndDate);
-                    taskList.add(temp2);
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Got it. I've added this task:");
-                    System.out.println("      " + temp2);
-                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
-                    System.out.println("    ____________________________________________________________");
+                    try {
+                        if (strInput.split(" ").length < 2) {
+                            throw new CodsworthMissingInputException();
+                        }
+                        createTask(strRest, strCommand);
+                    } catch (CodsworthMissingInputException e) {
+                        System.out.println(e);
+                    } catch (CodsworthInvalidDateException e) {
+                        System.out.println(e);
+                    }
                     break;
 
                 case "bye":
@@ -134,9 +141,11 @@ public class Codsworth {
                     break;
 
                 default:
-                    System.out.println("    ____________________________________________________________");
-                    System.out.println("    Please input a valid command. Commands: mark unmark todo event deadline delete");
-                    System.out.println("    ____________________________________________________________");
+                    try {
+                        throw new CodsworthInvalidCommandException();
+                    } catch (CodsworthInvalidCommandException e) {
+                        System.out.println(e);
+                    }
                     break;
             }
         }
