@@ -19,7 +19,8 @@ public class Task {
         this.isDone = false;
     }
 
-    public String getDescription() {
+    @Override
+    public String toString() {
         return isDone
                 ? "[X] " + this.description
                 : "[ ] " + this.description;
