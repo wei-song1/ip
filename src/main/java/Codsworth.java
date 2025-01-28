@@ -14,7 +14,8 @@ public class Codsworth {
         System.out.println("    ____________________________________________________________");
     }
 
-    private static void modifyTask(String input, String operation) throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
+    private static void modifyTask(String input, String operation)
+            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
             int intMarked = Integer.parseInt(input) - 1;
             if (intMarked < 0 || intMarked >= taskList.size()) {
@@ -56,7 +57,6 @@ public class Codsworth {
     private static void createTask(String input, String operation) {
         try {
             Task temp = null;
-
 
             // ToDo
             if (operation.equals("todo")) {
@@ -107,46 +107,46 @@ public class Codsworth {
             String strRest = strInput.replaceFirst(strCommand + " ", "");
 
             switch (strCommand) {
-                case "list":
-                    printTaskList();
-                    break;
+            case "list":
+                printTaskList();
+                break;
 
-                case "mark":
-                case "unmark":
-                case "delete":
-                    try {
-                        modifyTask(strRest, strCommand);
-                    } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
-                        System.out.println(e);
+            case "mark":
+            case "unmark":
+            case "delete":
+                try {
+                    modifyTask(strRest, strCommand);
+                } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
+                    System.out.println(e);
+                }
+                break;
+
+            case "todo":
+            case "deadline":
+            case "event":
+                try {
+                    if (strInput.split(" ").length < 2) {
+                        throw new CodsworthMissingInputException();
                     }
-                    break;
+                    createTask(strRest, strCommand);
+                } catch (CodsworthMissingInputException e) {
+                    System.out.println(e);
+                } catch (CodsworthInvalidDateException e) {
+                    System.out.println(e);
+                }
+                break;
 
-                case "todo":
-                case "deadline":
-                case "event":
-                    try {
-                        if (strInput.split(" ").length < 2) {
-                            throw new CodsworthMissingInputException();
-                        }
-                        createTask(strRest, strCommand);
-                    } catch (CodsworthMissingInputException e) {
-                        System.out.println(e);
-                    } catch (CodsworthInvalidDateException e) {
-                        System.out.println(e);
-                    }
-                    break;
+            case "bye":
+                isBye = true;
+                break;
 
-                case "bye":
-                    isBye = true;
-                    break;
-
-                default:
-                    try {
-                        throw new CodsworthInvalidCommandException();
-                    } catch (CodsworthInvalidCommandException e) {
-                        System.out.println(e);
-                    }
-                    break;
+            default:
+                try {
+                    throw new CodsworthInvalidCommandException();
+                } catch (CodsworthInvalidCommandException e) {
+                    System.out.println(e);
+                }
+                break;
             }
         }
 
