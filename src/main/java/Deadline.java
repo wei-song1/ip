@@ -5,6 +5,12 @@ public class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
+        this.taskType = "deadline";
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " /by " + by;
     }
 
     @Override

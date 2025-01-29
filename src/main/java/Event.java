@@ -6,6 +6,11 @@ public class Event extends Task {
         super(description);
         this.from = from;
         this.to = to;
+        this.taskType = "event";
+    }
+
+    public String getDescription() {
+        return super.getDescription() + " /from: " + from + " /to: " + to;
     }
 
     @Override
