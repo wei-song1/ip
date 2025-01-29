@@ -1,11 +1,16 @@
 import CodsworthExceptions.*;
 
 import java.io.IOException;
+import java.io.File;
+import java.io.FileWriter;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Codsworth {
     private static final ArrayList<Task> taskList = new ArrayList<>();
@@ -210,6 +215,79 @@ public class Codsworth {
         }
     }
 
+    public static String formatCorrectDate(String input) {
+//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy");
+//        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
+        String output = null;
+        String[] inputs = input.trim().split(" ");
+        if (inputs.length < 2) {
+            String[] dates = null;
+            if (input.contains("-")) {
+                dates = input.split("-");
+            } else if (input.contains("/")) {
+                dates = input.split("/");
+            } else if (input.contains(":")) {
+                dates = input.split(":");
+            } else if (input.contains(".")) {
+                dates = input.split("\\.");
+            }
+
+            int day;
+            int month;
+            int year;
+            if (dates[0].length() == 2) {
+                day = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                year = Integer.parseInt(dates[2]);
+            } else {
+                day = Integer.parseInt(dates[2]);
+                month = Integer.parseInt(dates[1]);
+                year = Integer.parseInt(dates[0]);
+            }
+
+            output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
+                    + String.format("%02d", day);
+        } else {
+            String[] dates = null;
+            if (input.contains("-")) {
+                dates = inputs[0].split("-");
+            } else if (input.contains("/")) {
+                dates = inputs[0].split("/");
+            } else if (input.contains(":")) {
+                dates = inputs[0].split(":");
+            } else if (input.contains(".")) {
+                dates = inputs[0].split("\\.");
+            }
+
+            int day;
+            int month;
+            int year;
+            if (dates[0].length() == 2) {
+                day = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                year = Integer.parseInt(dates[2]);
+            } else {
+                day = Integer.parseInt(dates[2]);
+                month = Integer.parseInt(dates[1]);
+                year = Integer.parseInt(dates[0]);
+            }
+
+            int hours = Integer.parseInt(inputs[1].substring(0, 2));  // HH
+            int minutes = Integer.parseInt(inputs[1].substring(2, 4));  // MM
+
+//            LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hours, minutes);
+//            System.out.println(localDateTime.format(dateTimeFormat));
+//            System.out.println(String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
+//                    + String.format("%02d", day) + "T" + String.format("%02d", hours) + ":"
+//                    + String.format("%02d", minutes));
+
+            output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
+                    + String.format("%02d", day) + "T" + String.format("%02d", hours) + ":"
+                    + String.format("%02d", minutes);
+        }
+        return output;
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -269,6 +347,10 @@ public class Codsworth {
 
             case "reset":
                 resetTaskList();
+                break;
+
+            case "test":
+                System.out.println(formatCorrectDate(strRest));
                 break;
 
             default:
