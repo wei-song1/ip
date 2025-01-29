@@ -1,0 +1,4 @@
+false/spacer/todo/spacer/borrow book
+false/spacer/deadline/spacer/return book /by Sunday
+false/spacer/event/spacer/project meeting /from: Mon 2pm /to: 4pm
+false/spacer/deadline/spacer/do homework /by no idea :-p
