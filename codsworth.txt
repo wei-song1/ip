@@ -1,0 +1,3 @@
+todo<-operation, task->todo
+deadline<-operation, task->deadline /by deadlineDate
+event<-operation, task->event /from eventDate /to eventEnd
