@@ -18,6 +18,9 @@ public class Codsworth {
     private static File f;
     private static FileWriter fileWriter;
 
+    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
+    static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
+
     private static void printTaskList() {
         System.out.println("    ____________________________________________________________");
         System.out.println("    Here are the tasks in your list:");
@@ -80,7 +83,8 @@ public class Codsworth {
                 case "deadline" -> {
                     String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
                     String strDate = input.split(" /by ")[1];
-                    temp = new Deadline(strTaskName, strDate);
+                    String strDeadlineDate = formatCorrectDate(strDate);
+                    temp = new Deadline(strTaskName, strDeadlineDate);
 
                     // Event
                 }
@@ -103,6 +107,8 @@ public class Codsworth {
         } catch (CodsworthMissingInputException e) {
             System.out.println(e);
         } catch (ArrayIndexOutOfBoundsException e) {
+            throw new CodsworthInvalidDateException();
+        } catch (NullPointerException e) {
             throw new CodsworthInvalidDateException();
         }
     }
@@ -215,9 +221,7 @@ public class Codsworth {
         }
     }
 
-    public static String formatCorrectDate(String input) {
-//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy");
-//        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
+    public static String formatCorrectDate(String input) throws CodsworthInvalidDateException{
         String output = null;
         String[] inputs = input.trim().split(" ");
         if (inputs.length < 2) {
@@ -243,6 +247,18 @@ public class Codsworth {
                 day = Integer.parseInt(dates[2]);
                 month = Integer.parseInt(dates[1]);
                 year = Integer.parseInt(dates[0]);
+            }
+
+            if (day > 31 || day < 1) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (month > 12 || month < 1) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (year > 9999 || year < 1000) {
+                throw new CodsworthInvalidDateException();
             }
 
             output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
@@ -274,6 +290,26 @@ public class Codsworth {
 
             int hours = Integer.parseInt(inputs[1].substring(0, 2));  // HH
             int minutes = Integer.parseInt(inputs[1].substring(2, 4));  // MM
+
+            if (day > 31 || day < 1) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (month > 12 || month < 1) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (year > 9999 || year < 1000) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (hours > 24 || hours < 0) {
+                throw new CodsworthInvalidDateException();
+            }
+
+            if (minutes > 59 || minutes < 0) {
+                throw new CodsworthInvalidDateException();
+            }
 
 //            LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hours, minutes);
 //            System.out.println(localDateTime.format(dateTimeFormat));
