@@ -1,3 +1,5 @@
+package Codsworth.Task;
+
 public class Task {
     protected String description;
     protected String taskType;

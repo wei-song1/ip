@@ -1,4 +1,4 @@
-package CodsworthExceptions;
+package Codsworth.CodsworthExceptions;
 
 public class CodsworthMissingInputException extends RuntimeException {
     @Override
