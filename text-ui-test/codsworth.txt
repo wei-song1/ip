@@ -1,4 +1,4 @@
 false/spacer/todo/spacer/borrow book
-false/spacer/deadline/spacer/return book /by Sunday
-false/spacer/event/spacer/project meeting /from: Mon 2pm /to: 4pm
-false/spacer/deadline/spacer/do homework /by no idea :-p
+false/spacer/deadline/spacer/return book /by 2001-07-20T13:00
+false/spacer/event/spacer/project meeting /from 2001-07-21 /to 2002-08-22T14:00
+false/spacer/deadline/spacer/do homework /by 1010-10-10

@@ -1,8 +1,8 @@
 reset
 todo borrow book
 list
-deadline return book /by Sunday
-event project meeting /from Mon 2pm /to 4pm
-deadline do homework /by no idea :-p
+deadline return book /by 20/07/2001 1300
+event project meeting /from 21/07/2001 /to 22/08/2002 1400
+deadline do homework /by 10-10-1010
 list
 bye

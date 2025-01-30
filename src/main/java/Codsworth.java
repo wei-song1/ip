@@ -83,16 +83,18 @@ public class Codsworth {
                 case "deadline" -> {
                     String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
                     String strDate = input.split(" /by ")[1];
-                    String strDeadlineDate = formatCorrectDate(strDate);
-                    temp = new Deadline(strTaskName, strDeadlineDate);
+                    String strFormattedDate = formatCorrectDate(strDate);
+                    temp = new Deadline(strTaskName, strFormattedDate);
 
                     // Event
                 }
                 case "event" -> {
                     String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
-                    String fromDate = input.split(" /")[1].replaceFirst("from ", "");
-                    String toDate = input.split(" /")[2].replaceFirst("to ", "");
-                    temp = new Event(strTaskName, fromDate, toDate);
+                    String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
+                    String strToDate = input.split(" /")[2].replaceFirst("to ", "");
+                    String strFormattedFromDate = formatCorrectDate(strFromDate);
+                    String strFormattedToDate = formatCorrectDate(strToDate);
+                    temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
                 }
             }
 
@@ -198,6 +200,7 @@ public class Codsworth {
                     if (isDone.equals("true")) {
                         modifyTaskWithoutPrinting(i);
                     }
+                    i++;
                 }
                 s.close();
             }

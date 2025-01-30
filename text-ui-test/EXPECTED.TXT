@@ -13,25 +13,25 @@
     ____________________________________________________________
     ____________________________________________________________
     Got it. I've added this task:
-      [D][ ] return book (by: Sunday)
+      [D][ ] return book (by: 20 Jul 2001 01:00pm)
     Now you have 2 tasks in the list.
     ____________________________________________________________
     ____________________________________________________________
     Got it. I've added this task:
-      [E][ ] project meeting (from: Mon 2pm to: 4pm)
+      [E][ ] project meeting (from: 21 Jul 2001 to: 22 Aug 2002 02:00pm)
     Now you have 3 tasks in the list.
     ____________________________________________________________
     ____________________________________________________________
     Got it. I've added this task:
-      [D][ ] do homework (by: no idea :-p)
+      [D][ ] do homework (by: 10 Oct 1010)
     Now you have 4 tasks in the list.
     ____________________________________________________________
     ____________________________________________________________
     Here are the tasks in your list:
     1.[T][ ] borrow book
-    2.[D][ ] return book (by: Sunday)
-    3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
-    4.[D][ ] do homework (by: no idea :-p)
+    2.[D][ ] return book (by: 20 Jul 2001 01:00pm)
+    3.[E][ ] project meeting (from: 21 Jul 2001 to: 22 Aug 2002 02:00pm)
+    4.[D][ ] do homework (by: 10 Oct 1010)
     ____________________________________________________________
     ____________________________________________________________
     Bye. Hope to see you again soon!
