@@ -1,14 +1,18 @@
-package Codsworth.Task;
+package codsworth.Task;
 
-import Codsworth.Ui;
-import Codsworth.CodsworthExceptions.*;
 import java.util.ArrayList;
+
+import codsworth.CodsworthExceptions.CodsworthInvalidDateException;
+import codsworth.CodsworthExceptions.CodsworthMissingInputException;
+import codsworth.CodsworthExceptions.CodsworthOutOfBoundsException;
+import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
+import codsworth.Ui;
 
 public class TaskList {
     private static ArrayList<Task> taskList;
 
     public TaskList() {
-        taskList = new ArrayList<Task>();
+        taskList = new ArrayList<>();
     }
 
     public static int getTaskListSize() {
@@ -31,7 +35,7 @@ public class TaskList {
     }
 
     public static String formatCorrectDate(String input) throws CodsworthInvalidDateException {
-        String output = null;
+        String output;
         String[] inputs = input.trim().split(" ");
 
         String[] dates = null;
@@ -92,26 +96,27 @@ public class TaskList {
             Task temp = null;
 
             switch (operation) {
-                // Codsworth.Task.ToDo
-                case "todo" -> temp = new ToDo(input);
+            case "todo" -> temp = new ToDo(input);
 
-                // Codsworth.Task.Deadline
-                case "deadline" -> {
-                    String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
-                    String strDate = input.split(" /by ")[1];
-                    String strFormattedDate = formatCorrectDate(strDate);
-                    temp = new Deadline(strTaskName, strFormattedDate);
-                }
+            case "deadline" -> {
+                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
+                String strDate = input.split(" /by ")[1];
+                String strFormattedDate = formatCorrectDate(strDate);
+                temp = new Deadline(strTaskName, strFormattedDate);
+            }
 
-                // Codsworth.Task.Event
-                case "event" -> {
-                    String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
-                    String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
-                    String strToDate = input.split(" /")[2].replaceFirst("to ", "");
-                    String strFormattedFromDate = formatCorrectDate(strFromDate);
-                    String strFormattedToDate = formatCorrectDate(strToDate);
-                    temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
-                }
+            case "event" -> {
+                String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
+                String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
+                String strToDate = input.split(" /")[2].replaceFirst("to ", "");
+                String strFormattedFromDate = formatCorrectDate(strFromDate);
+                String strFormattedToDate = formatCorrectDate(strToDate);
+                temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
+            }
+
+            default -> {
+
+            }
             }
 
             taskList.add(temp);
@@ -131,22 +136,26 @@ public class TaskList {
         try {
             Task temp = null;
             switch (operation) {
-                case "todo" -> temp = new ToDo(input);
+            case "todo" -> temp = new ToDo(input);
 
-                // Codsworth.Task.Deadline
-                case "deadline" -> {
-                    String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
-                    String strDate = input.split(" /by ")[1];
-                    temp = new Deadline(strTaskName, strDate);
-                }
+            // Codsworth.Task.Deadline
+            case "deadline" -> {
+                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
+                String strDate = input.split(" /by ")[1];
+                temp = new Deadline(strTaskName, strDate);
+            }
 
-                // Codsworth.Task.Event
-                case "event" -> {
-                    String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
-                    String fromDate = input.split(" /")[1].replaceFirst("from ", "");
-                    String toDate = input.split(" /")[2].replaceFirst("to ", "");
-                    temp = new Event(strTaskName, fromDate, toDate);
-                }
+            // Codsworth.Task.Event
+            case "event" -> {
+                String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
+                String fromDate = input.split(" /")[1].replaceFirst("from ", "");
+                String toDate = input.split(" /")[2].replaceFirst("to ", "");
+                temp = new Event(strTaskName, fromDate, toDate);
+            }
+
+            default -> {
+
+            }
             }
 
             taskList.add(temp);
@@ -168,11 +177,13 @@ public class TaskList {
             }
 
             if (operation.equals("delete")) {
-                System.out.println(Ui.getModifiedTaskString(operation, taskList.get(intMarked), intMarked + 1, taskList.size() - 1));
+                System.out.println(Ui.getModifiedTaskString(operation,
+                        taskList.get(intMarked), intMarked + 1, taskList.size() - 1));
                 taskList.remove(intMarked);
             } else {
                 taskList.get(intMarked).setDoneOrUndone(operation);
-                System.out.println(Ui.getModifiedTaskString(operation, taskList.get(intMarked), intMarked + 1, taskList.size()));
+                System.out.println(Ui.getModifiedTaskString(operation,
+                        taskList.get(intMarked), intMarked + 1, taskList.size()));
             }
 
             // Exceptions

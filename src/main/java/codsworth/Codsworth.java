@@ -1,8 +1,7 @@
-package Codsworth;
-
-import Codsworth.Task.TaskList;
-
+package codsworth;
 import java.util.Scanner;
+
+import codsworth.Task.TaskList;
 
 public class Codsworth {
     private final Storage storage;

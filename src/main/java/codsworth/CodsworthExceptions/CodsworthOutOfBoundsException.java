@@ -1,4 +1,4 @@
-package Codsworth.CodsworthExceptions;
+package codsworth.CodsworthExceptions;
 
 public class CodsworthOutOfBoundsException extends RuntimeException {
     @Override

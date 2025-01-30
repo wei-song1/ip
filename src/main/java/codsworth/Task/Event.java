@@ -1,4 +1,4 @@
-package Codsworth.Task;
+package codsworth.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -7,11 +7,12 @@ import java.time.format.DateTimeFormatter;
 public class Event extends Task {
     protected String from;
     protected String to;
-    LocalDate fromDateOnly = null;
-    LocalDateTime fromDateAndTime = null;
 
-    LocalDate toDateOnly = null;
-    LocalDateTime toDateAndTime = null;
+    private LocalDate fromDateOnly = null;
+    private LocalDateTime fromDateAndTime = null;
+
+    private LocalDate toDateOnly = null;
+    private LocalDateTime toDateAndTime = null;
 
     public Event(String description, String from, String to) {
         super(description);

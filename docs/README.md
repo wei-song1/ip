@@ -1,4 +1,4 @@
-# Codsworth.Codsworth User Guide
+# codsworth.codsworth User Guide
 
 // Update the title above to match the actual product name
 

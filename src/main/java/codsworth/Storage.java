@@ -1,13 +1,12 @@
-package Codsworth;
+package codsworth;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.Scanner;
 
-import Codsworth.CodsworthExceptions.*;
-import Codsworth.Task.TaskList;
+import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
+import codsworth.Task.TaskList;
 
 public class Storage {
     private static String filePath;

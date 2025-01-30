@@ -1,4 +1,4 @@
-package Codsworth.Task;
+package codsworth.Task;
 
 public class ToDo extends Task {
     public ToDo(String description) {

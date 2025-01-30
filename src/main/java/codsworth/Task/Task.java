@@ -1,4 +1,4 @@
-package Codsworth.Task;
+package codsworth.Task;
 
 public class Task {
     protected String description;

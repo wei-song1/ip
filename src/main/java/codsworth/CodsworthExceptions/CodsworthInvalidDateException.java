@@ -1,4 +1,4 @@
-package Codsworth.CodsworthExceptions;
+package codsworth.CodsworthExceptions;
 
 public class CodsworthInvalidDateException extends RuntimeException {
     @Override

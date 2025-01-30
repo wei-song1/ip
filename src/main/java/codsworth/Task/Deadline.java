@@ -1,4 +1,4 @@
-package Codsworth.Task;
+package codsworth.Task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 public class Deadline extends Task {
     protected String by;
-    LocalDate dateOnly = null;
-    LocalDateTime dateAndTime = null;
+    private LocalDate dateOnly = null;
+    private LocalDateTime dateAndTime = null;
 
     public Deadline(String description, String by) {
         super(description);

@@ -1,30 +1,31 @@
-package Codsworth;
-
-import Codsworth.Task.Task;
+package codsworth;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import codsworth.Task.Task;
+
 public class Ui {
-    private static final String LOGO =
-            "|   _____          _                        _   _      |\n" +
-            "|  / ____|        | |                      | | | |     |\n" +
-            "| | |     ___   __| |_____      _____  _ __| |_| |__   |\n" +
-            "| | |    / _ \\ / _` / __\\ \\ /\\ / / _ \\| '__| __| '_ \\  |\n" +
-            "| | |___| (_) | (_| \\__ \\\\ V  V / (_) | |  | |_| | | | |\n" +
-            "|  \\_____\\___/ \\__,_|___/ \\_/\\_/ \\___/|_|   \\__|_| |_| |";
-
-    private static final String LINE_BREAK = "________________________________________________________";
-
     static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
 
+    private static final String LOGO = "|   _____          _                        _   _      |\n"
+            + "|  / ____|        | |                      | | | |     |\n"
+            + "| | |     ___   __| |_____      _____  _ __| |_| |__   |\n"
+            + "| | |    / _ \\ / _` / __\\ \\ /\\ / / _ \\| '__| __| '_ \\  |\n"
+            + "| | |___| (_) | (_| \\__ \\\\ V  V / (_) | |  | |_| | | | |\n"
+            + "|  \\_____\\___/ \\__,_|___/ \\_/\\_/ \\___/|_|   \\__|_| |_| |";
+
+    private static final String LINE_BREAK = "________________________________________________________";
+
     public static String getIntro() {
-        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nHello there, my name is Codsworth.Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK
+                + "\nHello there, my name is Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
     }
 
     public static String getOutro() {
-        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nThank you for using Codsworth.Codsworth\nHope to see you soon!\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK
+                + "\nThank you for using Codsworth\nHope to see you soon!\n" + LINE_BREAK;
     }
 
     public static String getTaskList(ArrayList<Task> taskList) {
@@ -70,6 +71,7 @@ public class Ui {
     }
 
     public static String getNewTask(Task task, int size) {
-        return LINE_BREAK + "\nGot it, I've added this task:\n" + task + "\nYou have " + size + " task(s) left.\n" + LINE_BREAK;
+        return LINE_BREAK + "\nGot it, I've added this task:\n" + task
+                + "\nYou have " + size + " task(s) left.\n" + LINE_BREAK;
     }
 }
