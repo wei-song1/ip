@@ -13,12 +13,12 @@ public class Task {
         return (isDone ? "X" : " "); // mark done task with X
     }
 
-    public void setDone() {
-        this.isDone = true;
-    }
-
-    public void setUndone() {
-        this.isDone = false;
+    public void setDoneOrUndone(String type) {
+        if (type.equals("mark")) {
+            this.isDone = true;
+        } else {
+            this.isDone = false;
+        }
     }
 
     public String getTaskType() {

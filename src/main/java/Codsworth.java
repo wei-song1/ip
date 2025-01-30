@@ -21,15 +21,6 @@ public class Codsworth {
     static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
 
-    private static void printTaskList() {
-        System.out.println("    ____________________________________________________________");
-        System.out.println("    Here are the tasks in your list:");
-        for (int j = 0; j < taskList.size(); j++) {
-            System.out.println("    " + (j + 1) + "." + taskList.get(j).toString());
-        }
-        System.out.println("    ____________________________________________________________");
-    }
-
     private static void modifyTask(int input, String operation)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
@@ -38,31 +29,33 @@ public class Codsworth {
                 throw new IndexOutOfBoundsException();
             }
 
-            System.out.println("    ____________________________________________________________");
-
-            // Delete Command
             if (operation.equals("delete")) {
-                System.out.println("    Noted. I've removed this task:");
-                System.out.println("    " + taskList.get(intMarked).toString());
+                System.out.println(Ui.getModifiedTaskString(operation, taskList.get(intMarked), intMarked + 1, taskList.size() - 1));
                 taskList.remove(intMarked);
-                System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
             } else {
-
-                // Mark Command
-                if (operation.equals("mark")) {
-                    System.out.println("    Nice! I've marked this task as done:");
-                    taskList.get(intMarked).setDone();
-
-                // Unmark Command
-                } else if (operation.equals("unmark")) {
-                    System.out.println("    OK, I've marked this task as not done yet:");
-                    taskList.get(intMarked).setUndone();
-                }
-                System.out.println("    " + taskList.get(intMarked).toString());
+                taskList.get(intMarked).setDoneOrUndone(operation);
+                System.out.println(Ui.getModifiedTaskString(operation, taskList.get(intMarked), intMarked + 1, taskList.size()));
             }
-            System.out.println("    ____________________________________________________________");
 
         // Exceptions
+        } catch (IndexOutOfBoundsException exception) {
+            throw new CodsworthOutOfBoundsException();
+        } catch (NumberFormatException exception) {
+            throw new CodsworthWrongFormatException();
+        }
+    }
+
+    private static void modifyTaskWithoutPrinting(int input)
+            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
+        try {
+            int intMarked = input - 1;
+            if (intMarked < 0 || intMarked >= taskList.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            taskList.get(intMarked).setDoneOrUndone("mark");
+
+            // Exceptions
         } catch (IndexOutOfBoundsException exception) {
             throw new CodsworthOutOfBoundsException();
         } catch (NumberFormatException exception) {
@@ -99,11 +92,7 @@ public class Codsworth {
             }
 
             taskList.add(temp);
-            System.out.println("    ____________________________________________________________");
-            System.out.println("    Got it. I've added this task:");
-            System.out.println("      " + temp);
-            System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
-            System.out.println("    ____________________________________________________________");
+            System.out.println(Ui.getNewTask(temp, taskList.size()));
 
         // Exception
         } catch (CodsworthMissingInputException e) {
@@ -112,24 +101,6 @@ public class Codsworth {
             throw new CodsworthInvalidDateException();
         } catch (NullPointerException e) {
             throw new CodsworthInvalidDateException();
-        }
-    }
-
-    private static void modifyTaskWithoutPrinting(int input)
-            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
-        try {
-            int intMarked = input - 1;
-            if (intMarked < 0 || intMarked >= taskList.size()) {
-                throw new IndexOutOfBoundsException();
-            }
-
-            taskList.get(intMarked).setDone();
-
-        // Exceptions
-        } catch (IndexOutOfBoundsException exception) {
-            throw new CodsworthOutOfBoundsException();
-        } catch (NumberFormatException exception) {
-            throw new CodsworthWrongFormatException();
         }
     }
 
@@ -224,108 +195,63 @@ public class Codsworth {
         }
     }
 
-    public static String formatCorrectDate(String input) throws CodsworthInvalidDateException{
+    public static String formatCorrectDate(String input) throws CodsworthInvalidDateException {
         String output = null;
         String[] inputs = input.trim().split(" ");
-        if (inputs.length < 2) {
-            String[] dates = null;
-            if (input.contains("-")) {
-                dates = input.split("-");
-            } else if (input.contains("/")) {
-                dates = input.split("/");
-            } else if (input.contains(":")) {
-                dates = input.split(":");
-            } else if (input.contains(".")) {
-                dates = input.split("\\.");
-            }
 
-            int day;
-            int month;
-            int year;
-            if (dates[0].length() == 2) {
-                day = Integer.parseInt(dates[0]);
-                month = Integer.parseInt(dates[1]);
-                year = Integer.parseInt(dates[2]);
-            } else {
-                day = Integer.parseInt(dates[2]);
-                month = Integer.parseInt(dates[1]);
-                year = Integer.parseInt(dates[0]);
-            }
+        String[] dates = null;
+        if (input.contains("-")) {
+            dates = inputs[0].split("-");
+        } else if (input.contains("/")) {
+            dates = inputs[0].split("/");
+        } else if (input.contains(":")) {
+            dates = inputs[0].split(":");
+        } else if (input.contains(".")) {
+            dates = inputs[0].split("\\.");
+        }
 
-            if (day > 31 || day < 1) {
-                throw new CodsworthInvalidDateException();
-            }
-
-            if (month > 12 || month < 1) {
-                throw new CodsworthInvalidDateException();
-            }
-
-            if (year > 9999 || year < 1000) {
-                throw new CodsworthInvalidDateException();
-            }
-
-            output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
-                    + String.format("%02d", day);
+        int day;
+        int month;
+        int year;
+        if (dates[0].length() == 2) {
+            day = Integer.parseInt(dates[0]);
+            month = Integer.parseInt(dates[1]);
+            year = Integer.parseInt(dates[2]);
         } else {
-            String[] dates = null;
-            if (input.contains("-")) {
-                dates = inputs[0].split("-");
-            } else if (input.contains("/")) {
-                dates = inputs[0].split("/");
-            } else if (input.contains(":")) {
-                dates = inputs[0].split(":");
-            } else if (input.contains(".")) {
-                dates = inputs[0].split("\\.");
-            }
+            day = Integer.parseInt(dates[2]);
+            month = Integer.parseInt(dates[1]);
+            year = Integer.parseInt(dates[0]);
+        }
 
-            int day;
-            int month;
-            int year;
-            if (dates[0].length() == 2) {
-                day = Integer.parseInt(dates[0]);
-                month = Integer.parseInt(dates[1]);
-                year = Integer.parseInt(dates[2]);
-            } else {
-                day = Integer.parseInt(dates[2]);
-                month = Integer.parseInt(dates[1]);
-                year = Integer.parseInt(dates[0]);
-            }
+        if (day > 31 || day < 1) {
+            throw new CodsworthInvalidDateException();
+        }
+        if (month > 12 || month < 1) {
+            throw new CodsworthInvalidDateException();
+        }
+        if (year > 9999 || year < 1000) {
+            throw new CodsworthInvalidDateException();
+        }
 
-            int hours = Integer.parseInt(inputs[1].substring(0, 2));  // HH
-            int minutes = Integer.parseInt(inputs[1].substring(2, 4));  // MM
+        output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
 
-            if (day > 31 || day < 1) {
-                throw new CodsworthInvalidDateException();
-            }
-
-            if (month > 12 || month < 1) {
-                throw new CodsworthInvalidDateException();
-            }
-
-            if (year > 9999 || year < 1000) {
-                throw new CodsworthInvalidDateException();
-            }
+        if (inputs.length >= 2) {
+            int hours = Integer.parseInt(inputs[1].substring(0, 2));
+            int minutes = Integer.parseInt(inputs[1].substring(2, 4));
 
             if (hours > 24 || hours < 0) {
                 throw new CodsworthInvalidDateException();
             }
-
             if (minutes > 59 || minutes < 0) {
                 throw new CodsworthInvalidDateException();
             }
 
-//            LocalDateTime localDateTime = LocalDateTime.of(year, month, day, hours, minutes);
-//            System.out.println(localDateTime.format(dateTimeFormat));
-//            System.out.println(String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
-//                    + String.format("%02d", day) + "T" + String.format("%02d", hours) + ":"
-//                    + String.format("%02d", minutes));
-
-            output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-"
-                    + String.format("%02d", day) + "T" + String.format("%02d", hours) + ":"
-                    + String.format("%02d", minutes);
+            output = output + "T" + String.format("%02d", hours) + ":" + String.format("%02d", minutes);
         }
+
         return output;
     }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -333,10 +259,7 @@ public class Codsworth {
         boolean isBye = false;
         initialiseTaskList();
 
-        System.out.println("    ____________________________________________________________");
-        System.out.println("    Hello, I'm Codsworth");
-        System.out.println("    What can I do for you?");
-        System.out.println("    ____________________________________________________________");
+        System.out.println(Ui.getIntro());
 
         while(!isBye) {
             String strInput = sc.nextLine().trim();
@@ -345,7 +268,7 @@ public class Codsworth {
 
             switch (strCommand) {
             case "list":
-                printTaskList();
+                System.out.println(Ui.getTaskList(taskList));
                 break;
 
             case "mark":
@@ -389,7 +312,7 @@ public class Codsworth {
                 break;
 
             case "test":
-                System.out.println(formatCorrectDate(strRest));
+                System.out.println(Ui.getModifiedTaskString("mark", taskList.get(0), 1, 10));
                 break;
 
             default:
@@ -402,9 +325,7 @@ public class Codsworth {
             }
         }
 
-        System.out.println("    ____________________________________________________________");
-        System.out.println("    Bye. Hope to see you again soon!");
-        System.out.println("    ____________________________________________________________");
+        System.out.println(Ui.getOutro());
         sc.close();
     }
 }
