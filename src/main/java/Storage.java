@@ -70,6 +70,8 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("An error occurred.");
         }
+
+        System.out.println(Ui.getOutro());
     }
 
     protected static void resetTaskList() {
@@ -82,5 +84,6 @@ public class Storage {
                 throw new RuntimeException(e);
             }
         }
+        // write task list cleared message
     }
 }
