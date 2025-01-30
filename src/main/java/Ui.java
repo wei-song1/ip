@@ -1,22 +1,26 @@
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Ui {
     private static final String LOGO =
-            "   _____          _                        _   _     \n" +
-            "  / ____|        | |                      | | | |    \n" +
-            " | |     ___   __| |_____      _____  _ __| |_| |__  \n" +
-            " | |    / _ \\ / _` / __\\ \\ /\\ / / _ \\| '__| __| '_ \\ \n" +
-            " | |___| (_) | (_| \\__ \\\\ V  V / (_) | |  | |_| | | |\n" +
-            "  \\_____\\___/ \\__,_|___/ \\_/\\_/ \\___/|_|   \\__|_| |_|";
+            "|   _____          _                        _   _      |\n" +
+            "|  / ____|        | |                      | | | |     |\n" +
+            "| | |     ___   __| |_____      _____  _ __| |_| |__   |\n" +
+            "| | |    / _ \\ / _` / __\\ \\ /\\ / / _ \\| '__| __| '_ \\  |\n" +
+            "| | |___| (_) | (_| \\__ \\\\ V  V / (_) | |  | |_| | | | |\n" +
+            "|  \\_____\\___/ \\__,_|___/ \\_/\\_/ \\___/|_|   \\__|_| |_| |";
 
-    private static final String LINE_BREAK = "_____________________________________________________";
+    private static final String LINE_BREAK = "________________________________________________________";
+
+    static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
+    static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
 
     public static String getIntro() {
-        return LINE_BREAK + "\n" + LOGO + "\nHello there, my name is Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nHello there, my name is Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
     }
 
     public static String getOutro() {
-        return LINE_BREAK + "\n" + LOGO + "\nThank you for using Codsworth\nHope to see you soon!\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nThank you for using Codsworth\nHope to see you soon!\n" + LINE_BREAK;
     }
 
     public static String getTaskList(ArrayList<Task> taskList) {
