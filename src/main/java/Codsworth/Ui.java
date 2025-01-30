@@ -1,3 +1,7 @@
+package Codsworth;
+
+import Codsworth.Task.Task;
+
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -16,11 +20,11 @@ public class Ui {
     static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
 
     public static String getIntro() {
-        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nHello there, my name is Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nHello there, my name is Codsworth.Codsworth\nWhat can I do for you?\n" + LINE_BREAK;
     }
 
     public static String getOutro() {
-        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nThank you for using Codsworth\nHope to see you soon!\n" + LINE_BREAK;
+        return LINE_BREAK + "\n" + LOGO + "\n" + LINE_BREAK + "\nThank you for using Codsworth.Codsworth\nHope to see you soon!\n" + LINE_BREAK;
     }
 
     public static String getTaskList(ArrayList<Task> taskList) {

@@ -1,4 +1,4 @@
-package CodsworthExceptions;
+package Codsworth.CodsworthExceptions;
 
 public class CodsworthInvalidCommandException extends RuntimeException {
     @Override

@@ -1,4 +1,7 @@
-import CodsworthExceptions.*;
+package Codsworth;
+
+import Codsworth.CodsworthExceptions.*;
+import Codsworth.Task.TaskList;
 
 public class Parser {
     private final TaskList taskList;
@@ -60,7 +63,7 @@ public class Parser {
                 break;
 
             case "test":
-//              System.out.println(Ui.getModifiedTaskString("mark", taskList.get(0), 1, 10));
+//              System.out.println(Codsworth.Ui.getModifiedTaskString("mark", taskList.get(0), 1, 10));
                 break;
 
             default:

@@ -1,4 +1,7 @@
-import CodsworthExceptions.*;
+package Codsworth.Task;
+
+import Codsworth.Ui;
+import Codsworth.CodsworthExceptions.*;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -8,22 +11,22 @@ public class TaskList {
         taskList = new ArrayList<Task>();
     }
 
-    protected static int getTaskListSize() {
+    public static int getTaskListSize() {
         return taskList.size();
     }
 
-    protected static String getTaskForStorage(int input) {
+    public static String getTaskForStorage(int input) {
         String operation = taskList.get(input).getTaskType();
         String task = taskList.get(input).getDescription();
         boolean isDone = taskList.get(input).getIsDone();
         return isDone + "/spacer/" + operation + "/spacer/" + task + "\n";
     }
 
-    protected static void getList() {
+    public static void getList() {
         System.out.println(Ui.getTaskList(taskList));
     }
 
-    protected static void setEmpty() {
+    public static void setEmpty() {
         taskList.clear();
     }
 
@@ -84,15 +87,15 @@ public class TaskList {
         return output;
     }
 
-    protected static void addTaskAndPrint(String input, String operation) {
+    public static void addTaskAndPrint(String input, String operation) {
         try {
             Task temp = null;
 
             switch (operation) {
-                // ToDo
+                // Codsworth.Task.ToDo
                 case "todo" -> temp = new ToDo(input);
 
-                // Deadline
+                // Codsworth.Task.Deadline
                 case "deadline" -> {
                     String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
                     String strDate = input.split(" /by ")[1];
@@ -100,7 +103,7 @@ public class TaskList {
                     temp = new Deadline(strTaskName, strFormattedDate);
                 }
 
-                // Event
+                // Codsworth.Task.Event
                 case "event" -> {
                     String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
                     String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
@@ -124,20 +127,20 @@ public class TaskList {
         }
     }
 
-    protected static void addTaskWithoutPrinting(String input, String operation) {
+    public static void addTaskWithoutPrinting(String input, String operation) {
         try {
             Task temp = null;
             switch (operation) {
                 case "todo" -> temp = new ToDo(input);
 
-                // Deadline
+                // Codsworth.Task.Deadline
                 case "deadline" -> {
                     String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
                     String strDate = input.split(" /by ")[1];
                     temp = new Deadline(strTaskName, strDate);
                 }
 
-                // Event
+                // Codsworth.Task.Event
                 case "event" -> {
                     String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
                     String fromDate = input.split(" /")[1].replaceFirst("from ", "");
@@ -156,7 +159,7 @@ public class TaskList {
         }
     }
 
-    protected static void modifyTaskAndPrint(int input, String operation)
+    public static void modifyTaskAndPrint(int input, String operation)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
             int intMarked = input - 1;
@@ -180,7 +183,7 @@ public class TaskList {
         }
     }
 
-    protected static void modifyTaskWithoutPrinting(int input)
+    public static void modifyTaskWithoutPrinting(int input)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
             int intMarked = input - 1;

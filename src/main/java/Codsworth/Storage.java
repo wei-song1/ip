@@ -1,11 +1,13 @@
+package Codsworth;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import CodsworthExceptions.*;
+import Codsworth.CodsworthExceptions.*;
+import Codsworth.Task.TaskList;
 
 public class Storage {
     private static String filePath;
@@ -20,7 +22,7 @@ public class Storage {
         this.fileWriter = null;
     }
 
-    protected static TaskList initialiseAndLoadTaskList() {
+    public static TaskList initialiseAndLoadTaskList() {
         try {
             f = new File(filePath);
             fileWriter = new FileWriter(filePath, true);
@@ -50,7 +52,7 @@ public class Storage {
         return taskList;
     }
 
-    protected static void saveTaskList() {
+    public static void saveTaskList() {
         try {
             fileWriter = new FileWriter(filePath);
         } catch (IOException e) {
@@ -74,7 +76,7 @@ public class Storage {
         System.out.println(Ui.getOutro());
     }
 
-    protected static void resetTaskList() {
+    public static void resetTaskList() {
         taskList.setEmpty();
         if (f.exists()) {
             f.delete();
