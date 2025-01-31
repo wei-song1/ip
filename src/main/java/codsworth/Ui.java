@@ -86,4 +86,8 @@ public class Ui {
         return LINE_BREAK + "\nGot it, I've added this task:\n" + task
                 + "\nYou have " + size + " task(s) left.\n" + LINE_BREAK;
     }
+
+    public static String getClearedMessage() {
+        return LINE_BREAK + "\nTask list has been resetted\n" + LINE_BREAK;
+    }
 }

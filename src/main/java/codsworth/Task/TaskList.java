@@ -67,6 +67,7 @@ public class TaskList {
         int day;
         int month;
         int year;
+
         if (dates[0].length() == 2) {
             day = Integer.parseInt(dates[0]);
             month = Integer.parseInt(dates[1]);
@@ -139,9 +140,7 @@ public class TaskList {
                 temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
             }
 
-            default -> {
-
-            }
+            default -> { }
             }
 
             taskList.add(temp);
@@ -167,14 +166,12 @@ public class TaskList {
             switch (operation) {
             case "todo" -> temp = new ToDo(input);
 
-            // Codsworth.Task.Deadline
             case "deadline" -> {
                 String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
                 String strDate = input.split(" /by ")[1];
                 temp = new Deadline(strTaskName, strDate);
             }
 
-            // Codsworth.Task.Event
             case "event" -> {
                 String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
                 String fromDate = input.split(" /")[1].replaceFirst("from ", "");
@@ -182,14 +179,12 @@ public class TaskList {
                 temp = new Event(strTaskName, fromDate, toDate);
             }
 
-            default -> {
-
-            }
+            default -> { }
             }
 
             taskList.add(temp);
 
-            // Exception
+        // Exception
         } catch (CodsworthMissingInputException e) {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -221,7 +216,7 @@ public class TaskList {
                         taskList.get(intMarked), intMarked + 1, taskList.size()));
             }
 
-            // Exceptions
+        // Exceptions
         } catch (IndexOutOfBoundsException exception) {
             throw new CodsworthOutOfBoundsException();
         } catch (NumberFormatException exception) {
@@ -236,6 +231,7 @@ public class TaskList {
      */
     public static void modifyTaskWithoutPrinting(int input)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
+
         try {
             int intMarked = input - 1;
             if (intMarked < 0 || intMarked >= taskList.size()) {
@@ -244,7 +240,7 @@ public class TaskList {
 
             taskList.get(intMarked).setDoneOrUndone("mark");
 
-            // Exceptions
+        // Exceptions
         } catch (IndexOutOfBoundsException exception) {
             throw new CodsworthOutOfBoundsException();
         } catch (NumberFormatException exception) {

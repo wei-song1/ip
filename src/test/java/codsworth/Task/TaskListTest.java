@@ -88,7 +88,6 @@ public class TaskListTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
 
-        TaskList taskList = new TaskList();
         TaskList.addTaskAndPrint("abc", "todo");
 
         assertEquals("________________________________________________________\n" +
