@@ -5,15 +5,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
-import codsworth.Task.TaskList;
+import codsworth.codsworthexceptions.CodsworthWrongFormatException;
+import codsworth.task.TaskList;
 
+/**
+ * Stores file, fileWriter and filePath details to save and load information
+ */
 public class Storage {
     private static String filePath;
     private static TaskList taskList;
     private static File f;
     private static FileWriter fileWriter;
 
+    /**
+     * Initalises storage based on the file path provided
+     *
+     * @param filePath Path to file.
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
         this.taskList = new TaskList();
@@ -21,6 +29,12 @@ public class Storage {
         this.fileWriter = null;
     }
 
+    /**
+     * Initalises Codsworth program and loads the task list before returning the initialised task list. Creates a new
+     * file and task list if there was none prior
+     *
+     * @return Initalised task list
+     */
     public static TaskList initialiseAndLoadTaskList() {
         try {
             f = new File(filePath);
@@ -51,6 +65,9 @@ public class Storage {
         return taskList;
     }
 
+    /**
+     * Saves task list into file provided in the file path
+     */
     public static void saveTaskList() {
         try {
             fileWriter = new FileWriter(filePath);
@@ -75,6 +92,9 @@ public class Storage {
         System.out.println(Ui.getOutro());
     }
 
+    /**
+     * Resets task list and resets the file
+     */
     public static void resetTaskList() {
         taskList.setEmpty();
         if (f.exists()) {

@@ -1,5 +1,8 @@
-package codsworth.CodsworthExceptions;
+package codsworth.codsworthexceptions;
 
+/**
+ * Thrown when invalid command is given to Codsworth
+ */
 public class CodsworthInvalidCommandException extends RuntimeException {
     @Override
     public String toString() {

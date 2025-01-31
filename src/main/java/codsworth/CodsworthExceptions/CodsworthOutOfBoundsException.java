@@ -1,5 +1,8 @@
-package codsworth.CodsworthExceptions;
+package codsworth.codsworthexceptions;
 
+/**
+ * Thrown when numbers given to Codsworth is out of bounds
+ */
 public class CodsworthOutOfBoundsException extends RuntimeException {
     @Override
     public String toString() {

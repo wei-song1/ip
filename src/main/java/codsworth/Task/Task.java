@@ -1,26 +1,26 @@
-package codsworth.Task;
+package codsworth.task;
 
+/**
+ * Represents task. A <code>Task</code> object corresponds to a task represented by a name
+ */
 public class Task {
     protected String description;
     protected String taskType;
     protected boolean isDone;
 
+    /**
+     * Initalisation method of Task
+     *
+     * @param description Name of the task.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
         this.taskType = "";
     }
 
-    public String getStatusIcon() {
-        return (isDone ? "X" : " "); // mark done task with X
-    }
-
     public void setDoneOrUndone(String type) {
-        if (type.equals("mark")) {
-            this.isDone = true;
-        } else {
-            this.isDone = false;
-        }
+        this.isDone = type.equals("mark");
     }
 
     public String getTaskType() {

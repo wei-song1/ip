@@ -1,17 +1,26 @@
 package codsworth;
 
-import codsworth.CodsworthExceptions.CodsworthInvalidCommandException;
-import codsworth.CodsworthExceptions.CodsworthInvalidDateException;
-import codsworth.CodsworthExceptions.CodsworthMissingInputException;
-import codsworth.CodsworthExceptions.CodsworthOutOfBoundsException;
-import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
-import codsworth.Task.TaskList;
+import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
+import codsworth.codsworthexceptions.CodsworthInvalidDateException;
+import codsworth.codsworthexceptions.CodsworthMissingInputException;
+import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
+import codsworth.codsworthexceptions.CodsworthWrongFormatException;
+import codsworth.task.TaskList;
 
+/**
+ * Stores all the user commands and parsing related functions
+ */
 public class Parser {
     private final TaskList taskList;
     private final Storage storage;
     private boolean isBye = false;
 
+    /**
+     * Initialises the parser to be used for Codsworth
+     *
+     * @param taskList Task list to be used.
+     * @param storage Storage to be used.
+     */
     public Parser(TaskList taskList, Storage storage) {
         this.taskList = taskList;
         this.storage = storage;
@@ -21,6 +30,11 @@ public class Parser {
         return isBye;
     }
 
+    /**
+     * Reads the input and executes the input that was given
+     *
+     * @param input Operation to be executed.
+     */
     public void parse(String input) {
         if (input == null) {
             throw new CodsworthInvalidCommandException();

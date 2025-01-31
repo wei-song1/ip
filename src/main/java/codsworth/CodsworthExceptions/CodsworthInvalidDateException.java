@@ -1,5 +1,8 @@
-package codsworth.CodsworthExceptions;
+package codsworth.codsworthexceptions;
 
+/**
+ * Thrown when invalid date is given to Codsworth
+ */
 public class CodsworthInvalidDateException extends RuntimeException {
     @Override
     public String toString() {

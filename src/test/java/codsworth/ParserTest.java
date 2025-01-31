@@ -1,6 +1,6 @@
 package codsworth;
-import codsworth.CodsworthExceptions.CodsworthInvalidCommandException;
-import codsworth.Task.TaskList;
+import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
+import codsworth.task.TaskList;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -10,6 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
+    /**
+     * Tests commands to make sure that it works as intended
+     */
     @Test
     public void testParse() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

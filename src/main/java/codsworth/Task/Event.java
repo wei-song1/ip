@@ -1,19 +1,25 @@
-package codsworth.Task;
+package codsworth.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents the event task. A <code>Task</code> object corresponds to a task
+ * represented by a name, start date and end date
+ * e.g., <code>event [task name] /from DD-MM-YYYY /to /from DD-MM-YYYY</code>
+ */
 public class Event extends Task {
     protected String from;
     protected String to;
 
-    private LocalDate fromDateOnly = null;
-    private LocalDateTime fromDateAndTime = null;
-
-    private LocalDate toDateOnly = null;
-    private LocalDateTime toDateAndTime = null;
-
+    /**
+     * Initalisation method of Event
+     *
+     * @param description Name of the task.
+     * @param from Start date of the task.
+     * @param to End date of the task.
+     */
     public Event(String description, String from, String to) {
         super(description);
         this.from = from;
@@ -21,27 +27,37 @@ public class Event extends Task {
         this.taskType = "event";
     }
 
+    /**
+     * Returns event in the same way that the user would have inputted
+     *
+     * @return Event task in the same way as the user would have inputted
+     */
     public String getDescription() {
         return super.getDescription() + " /from " + from + " /to " + to;
     }
 
+    /**
+     * Returns the event in the formatted way to show in lists and prints
+     *
+     * @return Event task formatted for lists and prints
+     */
     @Override
     public String toString() {
-        String fromDate = null;
+        String fromDate;
         if (!from.contains("T")) {
-            fromDateOnly = LocalDate.parse(from);
+            LocalDate fromDateOnly = LocalDate.parse(from);
             fromDate = fromDateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
         } else {
-            fromDateAndTime = LocalDateTime.parse(from);
+            LocalDateTime fromDateAndTime = LocalDateTime.parse(from);
             fromDate = fromDateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
         }
 
-        String toDate = null;
+        String toDate;
         if (!to.contains("T")) {
-            toDateOnly = LocalDate.parse(to);
+            LocalDate toDateOnly = LocalDate.parse(to);
             toDate = toDateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
         } else {
-            toDateAndTime = LocalDateTime.parse(to);
+            LocalDateTime toDateAndTime = LocalDateTime.parse(to);
             toDate = toDateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
         }
         return "[E]" + super.toString() + " (from: " + fromDate + " to: " + toDate + ")";
