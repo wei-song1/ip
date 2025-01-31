@@ -8,6 +8,9 @@ import codsworth.CodsworthExceptions.CodsworthOutOfBoundsException;
 import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
 import codsworth.Ui;
 
+/**
+ * Represents ArrayList of Task in a TaskList class and encapsulates all it's methods into the class.
+ */
 public class TaskList {
     private static ArrayList<Task> taskList;
 
@@ -34,6 +37,14 @@ public class TaskList {
         taskList.clear();
     }
 
+    /**
+     * Returns a properly formatted string for LocalDate/LocalDateTime, as well as checks if the string is
+     * properly written to be formatted.
+     *
+     * @param input Date string.
+     * @return Properly inputted string for LocalDate/LocalDateTime.
+     * @throws CodsworthInvalidDateException If provided date is null, empty, contains characters or impossible.
+     */
     public static String formatCorrectDate(String input) throws CodsworthInvalidDateException {
         if (input == null || input.isEmpty() || input.matches(".*[a-zA-Z]+.*")) {
             throw new CodsworthInvalidDateException();
@@ -99,6 +110,12 @@ public class TaskList {
         return output;
     }
 
+    /**
+     * Adds the correct task to the task list based on the operation given and outputs the corresponding line
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     */
     public static void addTaskAndPrint(String input, String operation) {
         try {
             Task temp = null;
@@ -135,11 +152,15 @@ public class TaskList {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CodsworthInvalidDateException();
-        } catch (NullPointerException e) {
-            throw new CodsworthInvalidDateException();
         }
     }
 
+    /**
+     * Adds the correct task to the task list based on the operation given
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     */
     public static void addTaskWithoutPrinting(String input, String operation) {
         try {
             Task temp = null;
@@ -170,12 +191,18 @@ public class TaskList {
 
             // Exception
         } catch (CodsworthMissingInputException e) {
-            System.out.println(e);
+            throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CodsworthInvalidDateException();
         }
     }
 
+    /**
+     * Modifies the task in the task list based on the operation given and outputs the corresponding line
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     */
     public static void modifyTaskAndPrint(int input, String operation)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
@@ -202,6 +229,11 @@ public class TaskList {
         }
     }
 
+    /**
+     * Marks the task in the task list based on the index given as completed
+     *
+     * @param input Index of the task to be marked as completed.
+     */
     public static void modifyTaskWithoutPrinting(int input)
             throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
         try {
