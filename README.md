@@ -1,4 +1,4 @@
-# codsworth.codsworth project template
+# Codsworth project template
 
 This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
 
@@ -28,3 +28,4 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
 **TODO Things**
 1. Level 7: Save user tasks without having to type 'bye'
 2. Level 8: Add more stretch goals like sorting tasks by dates or a command to print deadlines/events occurring on a specific date
+3. Add more JUnit tests and fix the exceptions
