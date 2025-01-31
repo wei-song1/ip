@@ -105,6 +105,6 @@ public class Storage {
                 throw new RuntimeException(e);
             }
         }
-        // write task list cleared message
+        System.out.println(Ui.getClearedMessage());
     }
 }
