@@ -66,6 +66,10 @@ public class Parser {
             Storage.resetTaskList();
             break;
 
+        case "test":
+            TaskList.addTaskAndPrint("abc", "todo");
+            break;
+
         default:
             try {
                 throw new CodsworthInvalidCommandException();

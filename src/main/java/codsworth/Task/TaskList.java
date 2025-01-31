@@ -35,6 +35,10 @@ public class TaskList {
     }
 
     public static String formatCorrectDate(String input) throws CodsworthInvalidDateException {
+        if (input == null || input.isEmpty() || input.matches(".*[a-zA-Z]+.*")) {
+            throw new CodsworthInvalidDateException();
+        }
+
         String output;
         String[] inputs = input.trim().split(" ");
 
@@ -75,10 +79,14 @@ public class TaskList {
         output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
 
         if (inputs.length >= 2) {
+            if (inputs[1].length() != 4 || inputs[1].matches(".*[a-zA-Z]+.*")) {
+                throw new CodsworthInvalidDateException();
+            }
+
             int hours = Integer.parseInt(inputs[1].substring(0, 2));
             int minutes = Integer.parseInt(inputs[1].substring(2, 4));
 
-            if (hours > 24 || hours < 0) {
+            if (hours > 23 || hours < 0) {
                 throw new CodsworthInvalidDateException();
             }
             if (minutes > 59 || minutes < 0) {
@@ -122,9 +130,9 @@ public class TaskList {
             taskList.add(temp);
             System.out.println(Ui.getNewTask(temp, taskList.size()));
 
-            // Exception
+        // Exception
         } catch (CodsworthMissingInputException e) {
-            System.out.println(e);
+            throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CodsworthInvalidDateException();
         } catch (NullPointerException e) {
