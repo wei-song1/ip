@@ -62,7 +62,7 @@ public class ParserTest {
                 + "\nNote that you have to type bye in order to save your list"
                 + "\n________________________________________________________\n", outContent.toString());
         outContent.reset();
-        
+
         assertThrows(CodsworthInvalidCommandException.class, () -> {parser.parse(null);});
 
         System.setOut(originalOut);
