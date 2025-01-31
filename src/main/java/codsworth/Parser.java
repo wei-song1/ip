@@ -83,8 +83,8 @@ public class Parser {
             Storage.resetTaskList();
             break;
 
-        case "test":
-            TaskList.addTaskAndPrint("abc", "todo");
+        case "find":
+            TaskList.searchTaskAndPrint(strRest);
             break;
 
         default:

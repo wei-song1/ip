@@ -247,4 +247,19 @@ public class TaskList {
             throw new CodsworthWrongFormatException();
         }
     }
+
+    /**
+     * Searches task list for matching string and prints out if any
+     *
+     * @param input String to be searched
+     */
+    public static void searchTaskAndPrint(String input) {
+        ArrayList<String> matchingList = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++) {
+            if (taskList.get(i).toString().contains(input)) {
+                matchingList.add((i + 1) + ". " + taskList.get(i).toString());
+            }
+        }
+        System.out.println(Ui.getMatchingString(matchingList));
+    }
 }

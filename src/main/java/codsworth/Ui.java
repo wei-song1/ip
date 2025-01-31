@@ -90,4 +90,17 @@ public class Ui {
     public static String getClearedMessage() {
         return LINE_BREAK + "\nTask list has been resetted\n" + LINE_BREAK;
     }
+
+    public static String getMatchingString(ArrayList<String> matchingList) {
+        if (matchingList.isEmpty()) {
+            return LINE_BREAK + "\nThere are no matching tasks in your list\n" + LINE_BREAK;
+        } else {
+            String output = LINE_BREAK + "\nHere are the matching task(s):\n";
+            for (String s : matchingList) {
+                output += s + "\n";
+            }
+            output += LINE_BREAK;
+            return output;
+        }
+    }
 }
