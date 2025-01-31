@@ -1,6 +1,7 @@
 package codsworth;
 import java.util.Scanner;
 
+import codsworth.CodsworthExceptions.CodsworthInvalidCommandException;
 import codsworth.Task.TaskList;
 
 public class Codsworth {
@@ -19,7 +20,11 @@ public class Codsworth {
 
         while (!parser.isBye()) {
             String strInput = sc.nextLine().trim();
-            parser.parse(strInput);
+            try {
+                parser.parse(strInput);
+            } catch (CodsworthInvalidCommandException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         sc.close();

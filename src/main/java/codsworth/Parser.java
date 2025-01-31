@@ -22,6 +22,9 @@ public class Parser {
     }
 
     public void parse(String input) {
+        if (input == null) {
+            throw new CodsworthInvalidCommandException();
+        }
         String[] inputParts = input.split(" ", 2);
         String strCommand = inputParts[0];
         String strRest = inputParts.length > 1
