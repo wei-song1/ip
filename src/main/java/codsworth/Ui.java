@@ -86,4 +86,17 @@ public class Ui {
         return LINE_BREAK + "\nGot it, I've added this task:\n" + task
                 + "\nYou have " + size + " task(s) left.\n" + LINE_BREAK;
     }
+
+    public static String getMatchingString(ArrayList<String> matchingList) {
+        if (matchingList.isEmpty()) {
+            return LINE_BREAK + "\nThere are no matching tasks in your list\n" + LINE_BREAK;
+        } else {
+            String output = LINE_BREAK + "\nHere are the matching task(s):\n";
+            for (String s : matchingList) {
+                output += s + "\n";
+            }
+            output += LINE_BREAK;
+            return output;
+        }
+    }
 }
