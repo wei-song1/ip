@@ -1,4 +1,4 @@
-package codsworth.Task;
+package codsworth.task;
 
 /**
  * Represents task. A <code>Task</code> object corresponds to a task represented by a name

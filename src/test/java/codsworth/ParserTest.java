@@ -1,6 +1,6 @@
 package codsworth;
-import codsworth.CodsworthExceptions.CodsworthInvalidCommandException;
-import codsworth.Task.TaskList;
+import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
+import codsworth.task.TaskList;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;

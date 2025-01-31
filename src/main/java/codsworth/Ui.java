@@ -3,8 +3,11 @@ package codsworth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import codsworth.Task.Task;
+import codsworth.task.Task;
 
+/**
+ * Contains all the text strings to be displayed for user interface
+ */
 public class Ui {
     static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
     static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma");
@@ -42,6 +45,15 @@ public class Ui {
         }
     }
 
+    /**
+     * Returns string that says whether its completed, uncompleted or deleted based on inputs
+     *
+     * @param operation "mark", "unmark" or "delete"
+     * @param task Task that is being modified
+     * @param index Task ID to display which task number is being modified
+     * @param size Size of task list to display how many tasks remaining
+     * @return Returns string based on the operation being executed
+     */
     public static String getModifiedTaskString(String operation, Task task, int index, int size) {
         StringBuilder output = new StringBuilder();
         output.append(LINE_BREAK + "\n");

@@ -1,12 +1,12 @@
-package codsworth.Task;
+package codsworth.task;
 
 import java.util.ArrayList;
 
-import codsworth.CodsworthExceptions.CodsworthInvalidDateException;
-import codsworth.CodsworthExceptions.CodsworthMissingInputException;
-import codsworth.CodsworthExceptions.CodsworthOutOfBoundsException;
-import codsworth.CodsworthExceptions.CodsworthWrongFormatException;
 import codsworth.Ui;
+import codsworth.codsworthexceptions.CodsworthInvalidDateException;
+import codsworth.codsworthexceptions.CodsworthMissingInputException;
+import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
+import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 
 /**
  * Represents ArrayList of Task in a TaskList class and encapsulates all it's methods into the class.

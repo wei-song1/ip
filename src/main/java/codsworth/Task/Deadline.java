@@ -1,4 +1,4 @@
-package codsworth.Task;
+package codsworth.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
  */
 public class Deadline extends Task {
     protected String by;
-    private LocalDate dateOnly;
-    private LocalDateTime dateAndTime;
 
     /**
      * Initalisation method of Deadline
@@ -44,10 +42,10 @@ public class Deadline extends Task {
     public String toString() {
         String output;
         if (!by.contains("T")) {
-            dateOnly = LocalDate.parse(by);
+            LocalDate dateOnly = LocalDate.parse(by);
             output = dateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
         } else {
-            dateAndTime = LocalDateTime.parse(by);
+            LocalDateTime dateAndTime = LocalDateTime.parse(by);
             output = dateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
         }
         return "[D]" + super.toString() + " (by: " + output + ")";

@@ -1,7 +1,6 @@
-package codsworth.Task;
+package codsworth.task;
 
-import codsworth.Codsworth;
-import codsworth.CodsworthExceptions.CodsworthInvalidDateException;
+import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +24,7 @@ public class TaskListTest {
         assertEquals("2000-01-01", TaskList.formatCorrectDate("2000:01:01"));
 
         // Checks if it's invalid date and throws as expected or not
-        assertThrows(CodsworthInvalidDateException.class, () -> {TaskList.formatCorrectDate("00-01-2000");});
+        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("00-01-2000"));
         assertThrows(CodsworthInvalidDateException.class, () -> {TaskList.formatCorrectDate("32-01-2000");});
 
         assertThrows(CodsworthInvalidDateException.class, () -> {TaskList.formatCorrectDate("01-00-2000");});

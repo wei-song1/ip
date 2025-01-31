@@ -1,4 +1,4 @@
-package codsworth.Task;
+package codsworth.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,12 +12,6 @@ import java.time.format.DateTimeFormatter;
 public class Event extends Task {
     protected String from;
     protected String to;
-
-    private LocalDate fromDateOnly;
-    private LocalDateTime fromDateAndTime;
-
-    private LocalDate toDateOnly;
-    private LocalDateTime toDateAndTime;
 
     /**
      * Initalisation method of Event
@@ -51,19 +45,19 @@ public class Event extends Task {
     public String toString() {
         String fromDate;
         if (!from.contains("T")) {
-            fromDateOnly = LocalDate.parse(from);
+            LocalDate fromDateOnly = LocalDate.parse(from);
             fromDate = fromDateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
         } else {
-            fromDateAndTime = LocalDateTime.parse(from);
+            LocalDateTime fromDateAndTime = LocalDateTime.parse(from);
             fromDate = fromDateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
         }
 
         String toDate;
         if (!to.contains("T")) {
-            toDateOnly = LocalDate.parse(to);
+            LocalDate toDateOnly = LocalDate.parse(to);
             toDate = toDateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
         } else {
-            toDateAndTime = LocalDateTime.parse(to);
+            LocalDateTime toDateAndTime = LocalDateTime.parse(to);
             toDate = toDateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
         }
         return "[E]" + super.toString() + " (from: " + fromDate + " to: " + toDate + ")";

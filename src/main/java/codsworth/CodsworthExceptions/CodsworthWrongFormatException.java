@@ -1,5 +1,8 @@
-package codsworth.CodsworthExceptions;
+package codsworth.codsworthexceptions;
 
+/**
+ * Thrown when input given to Codsworth is invalid or in the wrong format
+ */
 public class CodsworthWrongFormatException extends Exception {
     @Override
     public String toString() {
