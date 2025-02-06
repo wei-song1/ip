@@ -25,7 +25,8 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
-**TODO Things**
+**TODO Things (Easy marks for PR reviewers lol)**
 1. Level 7: Save user tasks without having to type 'bye'
 2. Level 8: Add more stretch goals like sorting tasks by dates or a command to print deadlines/events occurring on a specific date
 3. Add more JUnit tests and fix the exceptions
+4. Change to only 1 exception instead of multiple, fix UI texts, create an easy UI text displayer
