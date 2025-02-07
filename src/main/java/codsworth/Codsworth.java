@@ -24,6 +24,7 @@ public class Codsworth {
     }
 
     /**
+     * LEGACY TERMINAL CODE
      * Starts Codsworth until user exits
      */
     public void run() {
@@ -39,6 +40,23 @@ public class Codsworth {
         }
 
         sc.close();
+    }
+
+    /**
+     * Parses one single input and returns as a string
+     *
+     * @param input Command with arguments
+     * @return Expected output in string form instead of printing into terminal
+     */
+    public String handleReponse(String input) {
+        String strInput = input.trim();
+        String output = "";
+        try {
+            output = parser.parseAndGetString(strInput);
+        } catch (CodsworthInvalidCommandException e) {
+            System.out.println(e.getMessage());
+        }
+        return output;
     }
 
     public static void main(String[] args) {

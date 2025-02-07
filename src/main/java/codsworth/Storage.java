@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import codsworth.Ui.UiString;
 import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 import codsworth.task.TaskList;
 
@@ -61,7 +62,7 @@ public class Storage {
         } catch (CodsworthWrongFormatException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(Ui.getIntro());
+        System.out.println(UiString.getIntro());
         return taskList;
     }
 
@@ -89,7 +90,7 @@ public class Storage {
             System.out.println("An error occurred.");
         }
 
-        System.out.println(Ui.getOutro());
+        System.out.println(UiString.getOutro());
     }
 
     /**
@@ -105,6 +106,6 @@ public class Storage {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(Ui.getClearedMessage());
+        System.out.println(UiString.getClearedMessage());
     }
 }

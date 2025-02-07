@@ -2,7 +2,7 @@ package codsworth.task;
 
 import java.util.ArrayList;
 
-import codsworth.Ui;
+import codsworth.Ui.UiString;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
 import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
@@ -30,7 +30,11 @@ public class TaskList {
     }
 
     public static void getList() {
-        System.out.println(Ui.getTaskList(taskList));
+        System.out.println(UiString.getTaskList(taskList));
+    }
+
+    public static String getListAsString() {
+        return UiString.getTaskList(taskList);
     }
 
     public static void setEmpty() {
@@ -144,7 +148,7 @@ public class TaskList {
             }
 
             taskList.add(temp);
-            System.out.println(Ui.getNewTask(temp, taskList.size()));
+            System.out.println(UiString.getNewTask(temp, taskList.size()));
 
         // Exception
         } catch (CodsworthMissingInputException e) {
@@ -193,6 +197,49 @@ public class TaskList {
     }
 
     /**
+     * Adds the correct task to the task list based on the operation given and outputs the corresponding line
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     */
+    public static String addTaskAndGetString(String input, String operation) {
+        try {
+            Task temp = null;
+
+            switch (operation) {
+            case "todo" -> temp = new ToDo(input);
+
+            case "deadline" -> {
+                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
+                String strDate = input.split(" /by ")[1];
+                String strFormattedDate = formatCorrectDate(strDate);
+                temp = new Deadline(strTaskName, strFormattedDate);
+            }
+
+            case "event" -> {
+                String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
+                String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
+                String strToDate = input.split(" /")[2].replaceFirst("to ", "");
+                String strFormattedFromDate = formatCorrectDate(strFromDate);
+                String strFormattedToDate = formatCorrectDate(strToDate);
+                temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
+            }
+
+            default -> { }
+            }
+
+            taskList.add(temp);
+            return UiString.getNewTask(temp, taskList.size());
+
+            // Exception
+        } catch (CodsworthMissingInputException e) {
+            throw new CodsworthMissingInputException();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new CodsworthInvalidDateException();
+        }
+    }
+
+    /**
      * Modifies the task in the task list based on the operation given and outputs the corresponding line
      *
      * @param input Task name with its optional dates.
@@ -207,12 +254,12 @@ public class TaskList {
             }
 
             if (operation.equals("delete")) {
-                System.out.println(Ui.getModifiedTaskString(operation,
+                System.out.println(UiString.getModifiedTaskString(operation,
                         taskList.get(intMarked), intMarked + 1, taskList.size() - 1));
                 taskList.remove(intMarked);
             } else {
                 taskList.get(intMarked).setDoneOrUndone(operation);
-                System.out.println(Ui.getModifiedTaskString(operation,
+                System.out.println(UiString.getModifiedTaskString(operation,
                         taskList.get(intMarked), intMarked + 1, taskList.size()));
             }
 
@@ -249,6 +296,37 @@ public class TaskList {
     }
 
     /**
+     * Modifies the task in the task list based on the operation given and outputs the corresponding line
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     */
+    public static String modifyTaskAndGetString(int input, String operation)
+            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
+        try {
+            int intMarked = input - 1;
+            if (intMarked < 0 || intMarked >= taskList.size()) {
+                throw new IndexOutOfBoundsException();
+            }
+
+            if (operation.equals("delete")) {
+                taskList.remove(intMarked);
+                return UiString.getDeletedTaskString();
+            } else {
+                taskList.get(intMarked).setDoneOrUndone(operation);
+                return UiString.getModifiedTaskString(operation,
+                        taskList.get(intMarked), intMarked + 1, taskList.size());
+            }
+
+            // Exceptions
+        } catch (IndexOutOfBoundsException exception) {
+            throw new CodsworthOutOfBoundsException();
+        } catch (NumberFormatException exception) {
+            throw new CodsworthWrongFormatException();
+        }
+    }
+
+    /**
      * Searches task list for matching string and prints out if any
      *
      * @param input String to be searched
@@ -260,6 +338,21 @@ public class TaskList {
                 matchingList.add((i + 1) + ". " + taskList.get(i).toString());
             }
         }
-        System.out.println(Ui.getMatchingString(matchingList));
+        System.out.println(UiString.getMatchingString(matchingList));
+    }
+
+    /**
+     * Searches task list for matching string and prints out if any
+     *
+     * @param input String to be searched
+     */
+    public static String searchTaskAndGetString(String input) {
+        ArrayList<String> matchingList = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++) {
+            if (taskList.get(i).toString().contains(input)) {
+                matchingList.add((i + 1) + ". " + taskList.get(i).toString());
+            }
+        }
+        return UiString.getMatchingString(matchingList);
     }
 }
