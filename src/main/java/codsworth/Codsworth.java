@@ -11,6 +11,7 @@ public class Codsworth {
     private final Storage storage;
     private final TaskList taskList;
     private final Parser parser;
+    private String commandType;
 
     /**
      * Initialises which file Codsworth will use for storing/loading of data
@@ -24,25 +25,6 @@ public class Codsworth {
     }
 
     /**
-     * LEGACY TERMINAL CODE
-     * Starts Codsworth until user exits
-     */
-    public void run() {
-        Scanner sc = new Scanner(System.in);
-
-        while (!parser.isBye()) {
-            String strInput = sc.nextLine().trim();
-            try {
-                parser.parse(strInput);
-            } catch (CodsworthInvalidCommandException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        sc.close();
-    }
-
-    /**
      * Parses one single input and returns as a string
      *
      * @param input Command with arguments
@@ -51,15 +33,12 @@ public class Codsworth {
     public String handleReponse(String input) {
         String strInput = input.trim();
         String output = "";
-        try {
-            output = parser.parseAndGetString(strInput);
-        } catch (CodsworthInvalidCommandException e) {
-            System.out.println(e.getMessage());
-        }
+        output = parser.parseAndGetString(strInput);
+        commandType = parser.getCommand(strInput);
         return output;
     }
 
-    public static void main(String[] args) {
-        new Codsworth("codsworth.txt").run();
+    public String getCommandType() {
+        return commandType;
     }
 }

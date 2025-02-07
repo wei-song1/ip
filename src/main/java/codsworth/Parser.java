@@ -15,6 +15,7 @@ public class Parser {
     private final TaskList taskList;
     private final Storage storage;
     private boolean isBye = false;
+    private boolean hasError = false;
 
     /**
      * Initialises the parser to be used for Codsworth
@@ -27,86 +28,16 @@ public class Parser {
         this.storage = storage;
     }
 
-    public boolean isBye() {
-        return isBye;
-    }
-
-    /**
-     * LEGACY TERMINAL CODE
-     * Reads the input and executes the input that was given
-     *
-     * @param input Operation to be executed.
-     */
-    public void parse(String input) {
-        if (input == null) {
-            throw new CodsworthInvalidCommandException();
-        }
-        String[] inputParts = input.split(" ", 2);
-        String strCommand = inputParts[0];
-        String strRest = inputParts.length > 1
-                ? inputParts[1]
-                : "";
-
-        switch (strCommand) {
-        case "list":
-            TaskList.getList();
-            break;
-
-        case "mark":
-        case "unmark":
-        case "delete":
-            try {
-                int taskId = Integer.parseInt(strRest);
-                TaskList.modifyTaskAndPrint(taskId, strCommand);
-            } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
-                System.out.println(e);
-            }
-            break;
-
-        case "todo":
-        case "deadline":
-        case "event":
-            try {
-                if (strRest.isEmpty()) {
-                    throw new CodsworthMissingInputException();
-                }
-                TaskList.addTaskAndPrint(strRest, strCommand);
-            } catch (CodsworthMissingInputException | CodsworthInvalidDateException e) {
-                System.out.println(e);
-            }
-            break;
-
-        case "bye":
-            isBye = true;
-            Storage.saveTaskList();
-            break;
-
-        case "reset":
-            Storage.resetTaskList();
-            break;
-
-        case "find":
-            TaskList.searchTaskAndPrint(strRest);
-            break;
-
-        default:
-            try {
-                throw new CodsworthInvalidCommandException();
-            } catch (CodsworthInvalidCommandException e) {
-                System.out.println(e);
-            }
-            break;
-        }
-    }
-
     /**
      * Reads the input and executes the input that was given
      *
      * @param input Operation to be executed.
      */
     public String parseAndGetString(String input) {
+        hasError = false;
         if (input == null) {
-            throw new CodsworthInvalidCommandException();
+            hasError = true;
+            return UiString.getInvalidCommandMessage();
         }
         String[] inputParts = input.split(" ", 2);
         String strCommand = inputParts[0];
@@ -122,10 +53,20 @@ public class Parser {
         case "unmark":
         case "delete":
             try {
+                if (strRest.isEmpty()) {
+                    throw new CodsworthMissingInputException();
+                }
+
+                double temp = Double.parseDouble(strRest);
+
                 int taskId = Integer.parseInt(strRest);
                 return TaskList.modifyTaskAndGetString(taskId, strCommand);
-            } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
+            } catch (CodsworthWrongFormatException | CodsworthMissingInputException | CodsworthOutOfBoundsException e) {
+                hasError = true;
                 return e.toString();
+            } catch (NumberFormatException e) {
+                hasError = true;
+                return UiString.getInvalidFormatMessage();
             }
 
         case "todo":
@@ -137,6 +78,7 @@ public class Parser {
                 }
                 return TaskList.addTaskAndGetString(strRest, strCommand);
             } catch (CodsworthMissingInputException | CodsworthInvalidDateException e) {
+                hasError = true;
                 return e.toString();
             }
 
@@ -152,12 +94,21 @@ public class Parser {
             return TaskList.searchTaskAndGetString(strRest);
 
         default:
-            try {
-                throw new CodsworthInvalidCommandException();
-            } catch (CodsworthInvalidCommandException e) {
-                return e.toString();
-            }
+            hasError = true;
+            return new CodsworthInvalidCommandException().toString();
         }
 
+    }
+
+    public String getCommand(String input) {
+        if (hasError) {
+            return "error";
+        }
+        if (input == null) {
+            throw new CodsworthInvalidCommandException();
+        }
+        String[] inputParts = input.split(" ", 2);
+        String strCommand = inputParts[0];
+        return strCommand;
     }
 }

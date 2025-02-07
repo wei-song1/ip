@@ -15,47 +15,32 @@ public class ParserTest {
      */
     @Test
     public void testParse() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
         Parser parser = new Parser(new TaskList(), new Storage(""));
 
-        parser.parse("list");
-        assertEquals("There are no tasks available\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString("list"), "There are no tasks available");
 
-        parser.parse("a");
-        assertEquals("Please input a valid command\n" +
-                "\n" +
-                "Commands: mark, unmark, delete, todo, deadline, event, reset, bye\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString("a"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        parser.parse("");
-        assertEquals("Please input a valid command\n" +
-                "\n" +
-                "Commands: mark, unmark, delete, todo, deadline, event, reset, bye\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString(""), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        parser.parse("ddjakdnsjk");
-        assertEquals("Please input a valid command\n" +
-                "\n" +
-                "Commands: mark, unmark, delete, todo, deadline, event, reset, bye\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString("dwandsadknjswajknasddwaisd"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        parser.parse("1");
-        assertEquals("Please input a valid command\n" +
-                "\n" +
-                "Commands: mark, unmark, delete, todo, deadline, event, reset, bye\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString("1"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        parser.parse("-");
-        assertEquals("Please input a valid command\n" +
-                "\n" +
-                "Commands: mark, unmark, delete, todo, deadline, event, reset, bye\n", outContent.toString());
-        outContent.reset();
+        assertEquals(parser.parseAndGetString("-"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        assertThrows(CodsworthInvalidCommandException.class, () -> {parser.parse(null);});
+        assertEquals(parser.parseAndGetString("/"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
 
-        System.setOut(originalOut);
+        assertEquals(parser.parseAndGetString("."), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
+
+        assertEquals(parser.parseAndGetString("`"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye");
     }
 }

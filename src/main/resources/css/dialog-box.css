@@ -1,0 +1,45 @@
+.label {
+    -fx-background-color: linear-gradient(to bottom right, #008e00, #008e00);
+    -fx-border-color: #00ee00 rgba(0, 238, 0, 0) #00ee00 rgba(0, 238, 0, 0);
+    -fx-border-width: 2px;
+    -fx-background-radius: 1em 1em 0 1em;
+    -fx-border-radius: 1em 1em 0 1em;
+}
+
+.reply-label {
+    -fx-background-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 1em 0;
+}
+
+/* Paste this below reply-label */
+.add-label {
+    -fx-background-color: #008e00;
+}
+
+.marked-label {
+    -fx-background-color: #008e00;
+}
+
+.delete-label {
+    -fx-border-color: #ffcc00 rgba(0, 238, 0, 0) #ffcc00 rgba(0, 238, 0, 0);
+    -fx-background-color: #ffb642;
+    -fx-text-fill: #976c29;
+}
+
+.error-label {
+    -fx-border-color: #ffaaaa rgba(0, 238, 0, 0) #ffaaaa rgba(0, 238, 0, 0);
+    -fx-background-color: #ac1212;
+    -fx-text-fill: #ffaaaa;
+}
+
+#displayPicture {
+    /* Shadow effect on image. */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);
+
+    /* Change size of image. */
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+
+    /* Rotate image clockwise by degrees. */
+    -fx-rotate: 0;
+}
