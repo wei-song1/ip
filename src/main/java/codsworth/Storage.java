@@ -56,12 +56,10 @@ public class Storage {
                 s.close();
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            System.out.println("DEBUGGING PURPOSE ONLY: Unable to initialise task list");
         } catch (CodsworthWrongFormatException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(Ui.getIntro());
         return taskList;
     }
 
@@ -79,17 +77,15 @@ public class Storage {
             try {
                 fileWriter.write(taskList.getTaskForStorage(j));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("DEBUGGING PURPOSE ONLY: Unable to close file.");
             }
         }
 
         try {
             fileWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("DEBUGGING PURPOSE ONLY: Unable to close file.");
         }
-
-        System.out.println(Ui.getOutro());
     }
 
     /**
@@ -105,6 +101,5 @@ public class Storage {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(Ui.getClearedMessage());
     }
 }

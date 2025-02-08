@@ -101,61 +101,49 @@ public class TaskListTest {
 
         TaskList.addTaskAndPrint("abc", "todo");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[T][ ] abc\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[T][ ] abc\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();
         TaskList.addTaskAndPrint("abc /by 01-01-2001", "deadline");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[D][ ] abc (by: 01 Jan 2001)\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[D][ ] abc (by: 01 Jan 2001)\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();
         TaskList.addTaskAndPrint("abc /by 01-01-2001 1800", "deadline");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[D][ ] abc (by: 01 Jan 2001 06:00pm)\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[D][ ] abc (by: 01 Jan 2001 06:00pm)\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();
         TaskList.addTaskAndPrint("abc /from 01-01-2001 /to 02-02-2002 2000", "event");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[E][ ] abc (from: 01 Jan 2001 to: 02 Feb 2002 08:00pm)\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[E][ ] abc (from: 01 Jan 2001 to: 02 Feb 2002 08:00pm)\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();
         TaskList.addTaskAndPrint("abc /from 01-01-2001 1000 /to 02-02-2002", "event");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002)\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002)\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();
         TaskList.addTaskAndPrint("abc /from 01-01-2001 1000 /to 02-02-2002 2000", "event");
 
-        assertEquals("________________________________________________________\n" +
-                "Got it, I've added this task:\n" +
-                "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002 08:00pm)\n" +
-                "You have 1 task(s) left.\n" +
-                "________________________________________________________\n", outContent.toString());
+        assertEquals("Got it, I've added this task:\n"
+                + "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002 08:00pm)\n"
+                + "You have 1 task(s) left.\n", outContent.toString());
 
         TaskList.setEmpty();
         outContent.reset();

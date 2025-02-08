@@ -3,7 +3,7 @@ package codsworth.task;
 /**
  * Represents task. A <code>Task</code> object corresponds to a task represented by a name
  */
-public class Task {
+public abstract class Task {
     protected String description;
     protected String taskType;
     protected boolean isDone;

@@ -50,10 +50,10 @@ test {
 }
 
 application {
-    mainClass.set("codsworth.Codsworth")
+    mainClass.set("codsworth.Launcher")
 }
 
-mainClassName = 'codsworth.Codsworth'
+mainClassName = 'codsworth.Launcher'
 
 shadowJar {
     archiveBaseName = "codsworth"

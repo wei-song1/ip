@@ -1,5 +1,6 @@
 package codsworth;
 
+import codsworth.Ui.UiString;
 import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
@@ -14,6 +15,7 @@ public class Parser {
     private final TaskList taskList;
     private final Storage storage;
     private boolean isBye = false;
+    private boolean hasError = false;
 
     /**
      * Initialises the parser to be used for Codsworth
@@ -26,18 +28,16 @@ public class Parser {
         this.storage = storage;
     }
 
-    public boolean isBye() {
-        return isBye;
-    }
-
     /**
      * Reads the input and executes the input that was given
      *
      * @param input Operation to be executed.
      */
-    public void parse(String input) {
+    public String parseAndGetString(String input) {
+        hasError = false;
         if (input == null) {
-            throw new CodsworthInvalidCommandException();
+            hasError = true;
+            return UiString.getInvalidCommandMessage();
         }
         String[] inputParts = input.split(" ", 2);
         String strCommand = inputParts[0];
@@ -47,19 +47,27 @@ public class Parser {
 
         switch (strCommand) {
         case "list":
-            TaskList.getList();
-            break;
+            return TaskList.getListAsString();
 
         case "mark":
         case "unmark":
         case "delete":
             try {
+                if (strRest.isEmpty()) {
+                    throw new CodsworthMissingInputException();
+                }
+
+                double temp = Double.parseDouble(strRest);
+
                 int taskId = Integer.parseInt(strRest);
-                TaskList.modifyTaskAndPrint(taskId, strCommand);
-            } catch (CodsworthWrongFormatException | CodsworthOutOfBoundsException e) {
-                System.out.println(e);
+                return TaskList.modifyTaskAndGetString(taskId, strCommand);
+            } catch (CodsworthWrongFormatException | CodsworthMissingInputException | CodsworthOutOfBoundsException e) {
+                hasError = true;
+                return e.toString();
+            } catch (NumberFormatException e) {
+                hasError = true;
+                return UiString.getInvalidFormatMessage();
             }
-            break;
 
         case "todo":
         case "deadline":
@@ -68,32 +76,39 @@ public class Parser {
                 if (strRest.isEmpty()) {
                     throw new CodsworthMissingInputException();
                 }
-                TaskList.addTaskAndPrint(strRest, strCommand);
+                return TaskList.addTaskAndGetString(strRest, strCommand);
             } catch (CodsworthMissingInputException | CodsworthInvalidDateException e) {
-                System.out.println(e);
+                hasError = true;
+                return e.toString();
             }
-            break;
 
         case "bye":
-            isBye = true;
             Storage.saveTaskList();
-            break;
+            return UiString.getOutro();
 
         case "reset":
             Storage.resetTaskList();
-            break;
+            return UiString.getClearedMessage();
 
         case "find":
-            TaskList.searchTaskAndPrint(strRest);
-            break;
+            return TaskList.searchTaskAndGetString(strRest);
 
         default:
-            try {
-                throw new CodsworthInvalidCommandException();
-            } catch (CodsworthInvalidCommandException e) {
-                System.out.println(e);
-            }
-            break;
+            hasError = true;
+            return new CodsworthInvalidCommandException().toString();
         }
+
+    }
+
+    public String getCommand(String input) {
+        if (hasError) {
+            return "error";
+        }
+        if (input == null) {
+            throw new CodsworthInvalidCommandException();
+        }
+        String[] inputParts = input.split(" ", 2);
+        String strCommand = inputParts[0];
+        return strCommand;
     }
 }
