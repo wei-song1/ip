@@ -2,7 +2,7 @@ package codsworth;
 
 import java.io.IOException;
 
-import codsworth.Ui.MainWindow;
+import codsworth.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Codsworth codsworth = new Codsworth("codsworth.txt");
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image codsworthImage = new Image(this.getClass().getResourceAsStream("/images/Codsworth.png"));
 
     @Override
     public void start(Stage stage) {
@@ -31,9 +31,9 @@ public class Main extends Application {
             stage.setMinHeight(340);
             stage.setMinWidth(417);
             stage.setTitle("Codsworth");
-            stage.getIcons().add(dukeImage);
+            stage.getIcons().add(codsworthImage);
 
-            fxmlLoader.<MainWindow>getController().setDuke(codsworth);
+            fxmlLoader.<MainWindow>getController().setCodsworth(codsworth);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

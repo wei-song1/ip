@@ -1,4 +1,4 @@
-package codsworth.Ui;
+package codsworth.ui;
 
 import java.io.IOException;
 import java.util.Collections;

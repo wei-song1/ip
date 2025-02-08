@@ -17,9 +17,9 @@ public class Codsworth {
      * @param filePath Path name of the file for reading/writing.
      */
     public Codsworth(String filePath) {
-        storage = new Storage(filePath);
-        taskList = Storage.initialiseAndLoadTaskList();
-        parser = new Parser(taskList, storage);
+        this.storage = new Storage(filePath);
+        this.taskList = storage.initialiseAndLoadTaskList();
+        this.parser = new Parser(taskList, storage);
     }
 
     /**
@@ -28,9 +28,9 @@ public class Codsworth {
      * @param input Command with arguments
      * @return Expected output in string form instead of printing into terminal
      */
-    public String handleReponse(String input) {
+    public String handleResponse(String input) {
         String strInput = input.trim();
-        String output = "";
+        String output;
         output = parser.parseAndGetString(strInput);
         commandType = parser.getCommand(strInput);
         return output;

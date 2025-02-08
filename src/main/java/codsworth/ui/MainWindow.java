@@ -1,4 +1,4 @@
-package codsworth.Ui;
+package codsworth.ui;
 
 import codsworth.Codsworth;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ public class MainWindow extends AnchorPane {
     private Codsworth codsworth;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image codsworthImage = new Image(this.getClass().getResourceAsStream("/images/Codsworth.png"));
 
     /**
      * Initalizes the program Codsworth with dialog container and welcome message
@@ -32,11 +32,11 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getChildren().add(DialogBox.getDukeDialog(UiString.getIntro(), dukeImage, "default"));
+        dialogContainer.getChildren().add(DialogBox.getDukeDialog(UiString.getIntro(), codsworthImage, "default"));
     }
 
     /** Injects the Duke instance */
-    public void setDuke(Codsworth d) {
+    public void setCodsworth(Codsworth d) {
         codsworth = d;
     }
 
@@ -47,11 +47,11 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = codsworth.handleReponse(input);
+        String response = codsworth.handleResponse(input);
         String commandType = codsworth.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage, commandType)
+                DialogBox.getDukeDialog(response, codsworthImage, commandType)
         );
         userInput.clear();
     }

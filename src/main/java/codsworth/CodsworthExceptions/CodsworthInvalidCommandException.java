@@ -1,6 +1,6 @@
 package codsworth.codsworthexceptions;
 
-import codsworth.Ui.UiString;
+import codsworth.ui.UiString;
 
 /**
  * Thrown when invalid command is given to Codsworth

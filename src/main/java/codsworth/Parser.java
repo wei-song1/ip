@@ -1,6 +1,6 @@
 package codsworth;
 
-import codsworth.Ui.UiString;
+import codsworth.ui.UiString;
 import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
@@ -14,7 +14,6 @@ import codsworth.task.TaskList;
 public class Parser {
     private final TaskList taskList;
     private final Storage storage;
-    private boolean isBye = false;
     private boolean hasError = false;
 
     /**
@@ -47,7 +46,7 @@ public class Parser {
 
         switch (strCommand) {
         case "list":
-            return TaskList.getListAsString();
+            return taskList.getListAsString();
 
         case "mark":
         case "unmark":
@@ -56,11 +55,11 @@ public class Parser {
                 if (strRest.isEmpty()) {
                     throw new CodsworthMissingInputException();
                 }
-
-                double temp = Double.parseDouble(strRest);
-
+                Double.parseDouble(strRest);
                 int taskId = Integer.parseInt(strRest);
-                return TaskList.modifyTaskAndGetString(taskId, strCommand);
+                String output = taskList.modifyTaskAndGetString(taskId, strCommand);
+                storage.saveTaskList();
+                return output;
             } catch (CodsworthWrongFormatException | CodsworthMissingInputException | CodsworthOutOfBoundsException e) {
                 hasError = true;
                 return e.toString();
@@ -76,22 +75,24 @@ public class Parser {
                 if (strRest.isEmpty()) {
                     throw new CodsworthMissingInputException();
                 }
-                return TaskList.addTaskAndGetString(strRest, strCommand);
+                String output = taskList.addTaskAndGetString(strRest, strCommand);
+                storage.saveTaskList();
+                return output;
             } catch (CodsworthMissingInputException | CodsworthInvalidDateException e) {
                 hasError = true;
                 return e.toString();
             }
 
         case "bye":
-            Storage.saveTaskList();
+            storage.saveTaskList();
             return UiString.getOutro();
 
         case "reset":
-            Storage.resetTaskList();
+            storage.resetTaskList();
             return UiString.getClearedMessage();
 
         case "find":
-            return TaskList.searchTaskAndGetString(strRest);
+            return taskList.searchTaskAndGetString(strRest);
 
         default:
             hasError = true;
@@ -108,7 +109,6 @@ public class Parser {
             throw new CodsworthInvalidCommandException();
         }
         String[] inputParts = input.split(" ", 2);
-        String strCommand = inputParts[0];
-        return strCommand;
+        return inputParts[0];
     }
 }

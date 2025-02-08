@@ -1,6 +1,6 @@
 package codsworth.codsworthexceptions;
 
-import codsworth.Ui.UiString;
+import codsworth.ui.UiString;
 
 /**
  * Thrown when input given to Codsworth is invalid or in the wrong format

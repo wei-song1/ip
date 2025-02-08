@@ -1,4 +1,4 @@
-package codsworth.Ui;
+package codsworth.ui;
 
 import java.util.ArrayList;
 
@@ -99,7 +99,7 @@ public class UiString {
         return "Please input a valid date"
                 + "\n\nHint"
                 + "\nDD-MM-YYYY or YYYY-MM-DD and optional timing"
-                + "\nOptional timing accpeted too: DD-MM-YYYY HHMM"
+                + "\nOptional timing accepted too: DD-MM-YYYY HHMM"
                 + "\nYou can use '-', '/', '.', ':' to separate dates";
     }
 

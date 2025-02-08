@@ -17,31 +17,33 @@ public class TaskListTest {
     @Test
     public void testDateFormat() {
         // Checks if symbols are accepted as expected
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("01-01-2000"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("01/01/2000"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("01.01.2000"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("01:01:2000"));
+        TaskList taskList = new TaskList();
 
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("2000-01-01"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("2000/01/01"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("2000.01.01"));
-        assertEquals("2000-01-01", TaskList.formatCorrectDate("2000:01:01"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("01-01-2000"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("01/01/2000"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("01.01.2000"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("01:01:2000"));
+
+        assertEquals("2000-01-01", taskList.formatCorrectDate("2000-01-01"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("2000/01/01"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("2000.01.01"));
+        assertEquals("2000-01-01", taskList.formatCorrectDate("2000:01:01"));
 
         // Checks if it's invalid date and throws as expected or not
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("00-01-2000"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("32-01-2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("00-01-2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("32-01-2000"));
 
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-00-2000"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("00-13-2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-00-2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("00-13-2000"));
 
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-0"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-999"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-10000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-0"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-999"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-10000"));
 
         // Checks for garbage input
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate(""));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate(null));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("a"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(""));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(null));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("a"));
     }
 
     /**
@@ -51,43 +53,45 @@ public class TaskListTest {
     @Test
     public void testDateTimeFormat() {
         // Checks if symbols are accepted as expected
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("01-01-2000 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("01/01/2000 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("01.01.2000 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("01:01:2000 1234"));
+        TaskList taskList = new TaskList();
 
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("2000-01-01 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("2000/01/01 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("2000.01.01 1234"));
-        assertEquals("2000-01-01T12:34", TaskList.formatCorrectDate("2000:01:01 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("01-01-2000 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("01/01/2000 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("01.01.2000 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("01:01:2000 1234"));
+
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("2000-01-01 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("2000/01/01 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("2000.01.01 1234"));
+        assertEquals("2000-01-01T12:34", taskList.formatCorrectDate("2000:01:01 1234"));
 
         // Checks if it's invalid date and throws as expected or not
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("00-01-2000 1234"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("32-01-2000 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("00-01-2000 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("32-01-2000 1234"));
 
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-00-2000 1234"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("00-13-2000 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-00-2000 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("00-13-2000 1234"));
 
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-0 1234"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-999 1234"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-10000 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-0 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-999 1234"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-10000 1234"));
 
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 0"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 00"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 000"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 00000"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 a"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 abcd"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 012d"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 2400"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2000 9999"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 0"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 00"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 00000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 a"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 abcd"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 012d"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 2400"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 9999"));
 
         // Checks for garbage input
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate(""));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate(null));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("a"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("01-01-2001 abcd"));
-        assertThrows(CodsworthInvalidDateException.class, () -> TaskList.formatCorrectDate("ab-cd-efgh 0123"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(""));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(null));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("a"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2001 abcd"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("ab-cd-efgh 0123"));
     }
 
     /**
@@ -95,59 +99,35 @@ public class TaskListTest {
      */
     @Test
     public void testAddTaskPrint() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outContent));
-
-        TaskList.addTaskAndPrint("abc", "todo");
+        TaskList taskList = new TaskList();
 
         assertEquals("Got it, I've added this task:\n"
                 + "[T][ ] abc\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc", "todo"));
 
-        TaskList.setEmpty();
-        outContent.reset();
-        TaskList.addTaskAndPrint("abc /by 01-01-2001", "deadline");
-
+        taskList.setEmpty();
         assertEquals("Got it, I've added this task:\n"
                 + "[D][ ] abc (by: 01 Jan 2001)\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc /by 01-01-2001", "deadline"));
 
-        TaskList.setEmpty();
-        outContent.reset();
-        TaskList.addTaskAndPrint("abc /by 01-01-2001 1800", "deadline");
-
+        taskList.setEmpty();
         assertEquals("Got it, I've added this task:\n"
                 + "[D][ ] abc (by: 01 Jan 2001 06:00pm)\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc /by 01-01-2001 1800", "deadline"));
 
-        TaskList.setEmpty();
-        outContent.reset();
-        TaskList.addTaskAndPrint("abc /from 01-01-2001 /to 02-02-2002 2000", "event");
-
+        taskList.setEmpty();
         assertEquals("Got it, I've added this task:\n"
                 + "[E][ ] abc (from: 01 Jan 2001 to: 02 Feb 2002 08:00pm)\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc /from 01-01-2001 /to 02-02-2002 2000", "event"));
 
-        TaskList.setEmpty();
-        outContent.reset();
-        TaskList.addTaskAndPrint("abc /from 01-01-2001 1000 /to 02-02-2002", "event");
-
+        taskList.setEmpty();
         assertEquals("Got it, I've added this task:\n"
                 + "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002)\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc /from 01-01-2001 1000 /to 02-02-2002", "event"));
 
-        TaskList.setEmpty();
-        outContent.reset();
-        TaskList.addTaskAndPrint("abc /from 01-01-2001 1000 /to 02-02-2002 2000", "event");
-
+        taskList.setEmpty();
         assertEquals("Got it, I've added this task:\n"
                 + "[E][ ] abc (from: 01 Jan 2001 10:00am to: 02 Feb 2002 08:00pm)\n"
-                + "You have 1 task(s) left.\n", outContent.toString());
-
-        TaskList.setEmpty();
-        outContent.reset();
-
-        System.setOut(originalOut);
+                + "You have 1 task(s) left.", taskList.addTaskAndGetString("abc /from 01-01-2001 1000 /to 02-02-2002 2000", "event"));
     }
 }

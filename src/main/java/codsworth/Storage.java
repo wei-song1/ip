@@ -3,103 +3,101 @@ package codsworth;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 import codsworth.task.TaskList;
 
 /**
- * Stores file, fileWriter and filePath details to save and load information
+ * Handles file storage, loading and saving tasks to a file.
  */
 public class Storage {
-    private static String filePath;
-    private static TaskList taskList;
-    private static File f;
-    private static FileWriter fileWriter;
+    private final String filePath;
+    private final TaskList taskList;
+    private final File file;
 
     /**
-     * Initalises storage based on the file path provided
+     * Initializes storage with the file path provided.
      *
-     * @param filePath Path to file.
+     * @param filePath Path to the file.
      */
     public Storage(String filePath) {
         this.filePath = filePath;
         this.taskList = new TaskList();
-        this.f = null;
-        this.fileWriter = null;
+        this.file = new File(filePath);
     }
 
     /**
-     * Initalises Codsworth program and loads the task list before returning the initialised task list. Creates a new
-     * file and task list if there was none prior
+     * Initializes Codsworth program and loads the task list.
+     * Creates a new file and task list if there is none.
      *
-     * @return Initalised task list
+     * @return Initialized task list.
      */
-    public static TaskList initialiseAndLoadTaskList() {
-        try {
-            f = new File(filePath);
-            fileWriter = new FileWriter(filePath, true);
-            if (!f.createNewFile()) {
-                Scanner s = new Scanner(f);
-                int i = 1;
-                while (s.hasNextLine()) {
-                    String[] temp = s.nextLine().split("/spacer/");
-                    String isDone = temp[0];
-                    String operation = temp[1];
-                    String input = temp[2];
-                    taskList.addTaskWithoutPrinting(input, operation);
-                    if (isDone.equals("true")) {
-                        taskList.modifyTaskWithoutPrinting(i);
-                    }
-                    i++;
-                }
-                s.close();
-            }
-        } catch (IOException e) {
-            System.out.println("DEBUGGING PURPOSE ONLY: Unable to initialise task list");
-        } catch (CodsworthWrongFormatException e) {
-            throw new RuntimeException(e);
+    public TaskList initialiseAndLoadTaskList() {
+        if (file.exists()) {
+            loadTaskListFromFile();
+        } else {
+            createNewFile();
         }
         return taskList;
     }
 
     /**
-     * Saves task list into file provided in the file path
+     * Loads the task list from the file.
      */
-    public static void saveTaskList() {
-        try {
-            fileWriter = new FileWriter(filePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (int j = 0; j < taskList.getTaskListSize(); j++) {
-            try {
-                fileWriter.write(taskList.getTaskForStorage(j));
-            } catch (IOException e) {
-                System.out.println("DEBUGGING PURPOSE ONLY: Unable to close file.");
+    private void loadTaskListFromFile() {
+        try (Scanner scanner = new Scanner(file)) {
+            int i = 1;
+            while (scanner.hasNextLine()) {
+                String[] parts = scanner.nextLine().split("/spacer/");
+                String isDone = parts[0];
+                String operation = parts[1];
+                String input = parts[2];
+                taskList.addTaskWithoutPrinting(input, operation);
+                if (isDone.equals("true")) {
+                    taskList.modifyTaskWithoutPrinting(i);
+                }
+                i++;
             }
-        }
-
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            System.out.println("DEBUGGING PURPOSE ONLY: Unable to close file.");
+        } catch (IOException | CodsworthWrongFormatException e) {
+            System.err.println("Error while loading task list: " + e.getMessage());
         }
     }
 
     /**
-     * Resets task list and resets the file
+     * Saves the task list to the file.
      */
-    public static void resetTaskList() {
-        taskList.setEmpty();
-        if (f.exists()) {
-            f.delete();
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    public void saveTaskList() {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            for (int j = 0; j < taskList.getTaskListSize(); j++) {
+                fileWriter.write(taskList.getTaskForStorage(j));
             }
+        } catch (IOException e) {
+            System.err.println("Error while saving task list: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Resets the task list and deletes the file.
+     */
+    public void resetTaskList() {
+        taskList.setEmpty();
+        if (file.exists()) {
+            file.delete();
+        }
+        createNewFile();
+    }
+
+    /**
+     * Creates a new file if it doesn't exist.
+     */
+    private void createNewFile() {
+        try {
+            Files.createFile(Paths.get(filePath));
+        } catch (IOException e) {
+            System.err.println("Error while creating file: " + e.getMessage());
         }
     }
 }
