@@ -1,7 +1,5 @@
 package codsworth;
-import java.util.Scanner;
 
-import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
 import codsworth.task.TaskList;
 
 /**
