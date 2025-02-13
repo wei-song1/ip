@@ -23,6 +23,7 @@ public class TaskList {
     }
 
     public String getTaskForStorage(int input) {
+        assert input >= 0 && input < taskList.size() : "Task list contains invalid input";
         String operation = taskList.get(input).getTaskType();
         String task = taskList.get(input).getDescription();
         boolean isDone = taskList.get(input).getIsDone();

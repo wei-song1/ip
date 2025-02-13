@@ -14,12 +14,14 @@ public abstract class Task {
      * @param description Name of the task.
      */
     public Task(String description) {
+        assert !description.isEmpty() : "Description cannot be empty";
         this.description = description;
         this.isDone = false;
         this.taskType = "";
     }
 
     public void setDoneOrUndone(String type) {
+        assert type.equals("mark") | type.equals("unmark") : "Type must be 'mark' or 'unmark'";
         this.isDone = type.equals("mark");
     }
 
