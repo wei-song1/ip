@@ -86,6 +86,15 @@ public class TaskListTest {
         assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 2400"));
         assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01-2000 9999"));
 
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01 01 2000 9999"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01[01[2000 9999"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01]01]2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01a01a2000"));
+
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01.01-2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01/01.2000"));
+        assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate("01-01:2000"));
+
         // Checks for garbage input
         assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(""));
         assertThrows(CodsworthInvalidDateException.class, () -> taskList.formatCorrectDate(null));

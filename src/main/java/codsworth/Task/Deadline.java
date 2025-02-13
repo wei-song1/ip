@@ -40,14 +40,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        String output;
-        if (!by.contains("T")) {
-            LocalDate dateOnly = LocalDate.parse(by);
-            output = dateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
-        } else {
-            LocalDateTime dateAndTime = LocalDateTime.parse(by);
-            output = dateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
-        }
+        String output = convertDateToPrint(by);
         return "[D]" + super.toString() + " (by: " + output + ")";
     }
 }

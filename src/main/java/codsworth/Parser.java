@@ -1,12 +1,11 @@
 package codsworth;
 
-import codsworth.ui.UiString;
 import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
 import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
-import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 import codsworth.task.TaskList;
+import codsworth.ui.UiString;
 
 /**
  * Stores all the user commands and parsing related functions
@@ -38,6 +37,7 @@ public class Parser {
             hasError = true;
             return UiString.getInvalidCommandMessage();
         }
+
         String[] inputParts = input.split(" ", 2);
         String strCommand = inputParts[0];
         String strRest = inputParts.length > 1
@@ -55,17 +55,19 @@ public class Parser {
                 if (strRest.isEmpty()) {
                     throw new CodsworthMissingInputException();
                 }
-                Double.parseDouble(strRest);
+
+                if (!strRest.matches("\\d+")) {
+                    throw new CodsworthInvalidCommandException();
+                }
+
                 int taskId = Integer.parseInt(strRest);
                 String output = taskList.modifyTaskAndGetString(taskId, strCommand);
                 storage.saveTaskList();
                 return output;
-            } catch (CodsworthWrongFormatException | CodsworthMissingInputException | CodsworthOutOfBoundsException e) {
+            } catch (CodsworthMissingInputException | CodsworthInvalidCommandException
+                     | CodsworthOutOfBoundsException e) {
                 hasError = true;
                 return e.toString();
-            } catch (NumberFormatException e) {
-                hasError = true;
-                return UiString.getInvalidFormatMessage();
             }
 
         case "todo":
@@ -75,6 +77,7 @@ public class Parser {
                 if (strRest.isEmpty()) {
                     throw new CodsworthMissingInputException();
                 }
+
                 String output = taskList.addTaskAndGetString(strRest, strCommand);
                 storage.saveTaskList();
                 return output;
@@ -105,9 +108,11 @@ public class Parser {
         if (hasError) {
             return "error";
         }
+
         if (input == null) {
             throw new CodsworthInvalidCommandException();
         }
+
         String[] inputParts = input.split(" ", 2);
         return inputParts[0];
     }

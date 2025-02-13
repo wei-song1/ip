@@ -30,8 +30,7 @@ public class Codsworth {
      */
     public String handleResponse(String input) {
         String strInput = input.trim();
-        String output;
-        output = parser.parseAndGetString(strInput);
+        String output = parser.parseAndGetString(strInput);
         commandType = parser.getCommand(strInput);
         return output;
     }

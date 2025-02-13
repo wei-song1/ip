@@ -1,5 +1,9 @@
 package codsworth.task;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents task. A <code>Task</code> object corresponds to a task represented by a name
  */
@@ -33,6 +37,25 @@ public abstract class Task {
 
     public String getDescription() {
         return this.description;
+    }
+
+    /**
+     * Converts date string saved in command into proper date format
+     * Example: 01-01-2001 converts to 01 Jan 2001
+     *
+     * @param date Date in DD-MM-YYYY format
+     * @return Formatted string (Example: 01 Jan 2001)
+     */
+    public String convertDateToPrint(String date) {
+        String output;
+        if (!date.contains("T")) {
+            LocalDate dateOnly = LocalDate.parse(date);
+            output = dateOnly.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
+        } else {
+            LocalDateTime dateAndTime = LocalDateTime.parse(date);
+            output = dateAndTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy hh:mma"));
+        }
+        return output;
     }
 
     @Override
