@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
 import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
-import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 import codsworth.ui.UiString;
 
 /**
@@ -13,6 +12,7 @@ import codsworth.ui.UiString;
  */
 public class TaskList {
     private ArrayList<Task> taskList;
+    private final String ARGUMENT_SEPERATOR = "/spacer/";
 
     public TaskList() {
         taskList = new ArrayList<>();
@@ -27,7 +27,7 @@ public class TaskList {
         String operation = taskList.get(input).getTaskType();
         String task = taskList.get(input).getDescription();
         boolean isDone = taskList.get(input).getIsDone();
-        return isDone + "/spacer/" + operation + "/spacer/" + task + "\n";
+        return isDone + ARGUMENT_SEPERATOR + operation + ARGUMENT_SEPERATOR + task + "\n";
     }
 
     public String getListAsString() {
@@ -48,6 +48,17 @@ public class TaskList {
      */
     public String formatCorrectDate(String input) throws CodsworthInvalidDateException {
         if (input == null || input.isEmpty() || input.matches(".*[a-zA-Z]+.*")) {
+            throw new CodsworthInvalidDateException();
+        }
+
+        // Should only accept 1 date seperator, not multiple
+        int dotCount = input.contains(".") ? 1 : 0;
+        int slashCount = input.contains("/") ? 1 : 0;
+        int colonCount = input.contains(":") ? 1 : 0;
+        int dashCount = input.contains("-") ? 1 : 0;
+        int seperatorCount = dotCount + slashCount + colonCount + dashCount;
+
+        if (seperatorCount != 1) {
             throw new CodsworthInvalidDateException();
         }
 
@@ -79,18 +90,13 @@ public class TaskList {
             year = Integer.parseInt(dates[0]);
         }
 
-        if (day > 31 || day < 1) {
-            throw new CodsworthInvalidDateException();
-        }
-        if (month > 12 || month < 1) {
-            throw new CodsworthInvalidDateException();
-        }
-        if (year > 9999 || year < 1000) {
+        if (day > 31 || day < 1 || month > 12 || month < 1 || year > 9999 || year < 1000) {
             throw new CodsworthInvalidDateException();
         }
 
         output = String.format("%04d", year) + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
 
+        // If there is time provided as well
         if (inputs.length >= 2) {
             if (inputs[1].length() != 4 || inputs[1].matches(".*[a-zA-Z]+.*")) {
                 throw new CodsworthInvalidDateException();
@@ -99,10 +105,7 @@ public class TaskList {
             int hours = Integer.parseInt(inputs[1].substring(0, 2));
             int minutes = Integer.parseInt(inputs[1].substring(2, 4));
 
-            if (hours > 23 || hours < 0) {
-                throw new CodsworthInvalidDateException();
-            }
-            if (minutes > 59 || minutes < 0) {
+            if (hours > 23 || hours < 0 || minutes > 59 || minutes < 0) {
                 throw new CodsworthInvalidDateException();
             }
 
@@ -113,36 +116,55 @@ public class TaskList {
     }
 
     /**
-     * Adds the correct task to the task list based on the operation given
+     * Handles the task creation based on the operation and input.
+     *
+     * @param input Task name with its optional dates.
+     * @param operation Operation currently being added.
+     * @return A Task object based on the operation.
+     * @throws CodsworthInvalidDateException If the date format is invalid.
+     * @throws CodsworthMissingInputException If the input is missing required fields.
+     */
+    private Task createTaskFromInput(String input, String operation) throws CodsworthInvalidDateException, CodsworthMissingInputException {
+        assert operation.equals("todo") | operation.equals("deadline") | operation.equals("event")
+                : "Invalid task type";
+
+        Task temp = null;
+
+        switch (operation) {
+        case "todo" -> temp = new ToDo(input);
+
+        case "deadline" -> {
+            String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
+            String strDate = input.split(" /by ")[1];
+            String strFormattedDate = formatCorrectDate(strDate);
+            temp = new Deadline(strTaskName, strFormattedDate);
+        }
+
+        case "event" -> {
+            String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
+            String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
+            String strToDate = input.split(" /")[2].replaceFirst("to ", "");
+            String strFormattedFromDate = formatCorrectDate(strFromDate);
+            String strFormattedToDate = formatCorrectDate(strToDate);
+            temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
+        }
+
+        default -> { }
+        }
+
+        return temp;
+    }
+
+    /**
+     * Used by storage to load task list. Adds the correct task to the task list based on the operation given
      *
      * @param input Task name with its optional dates.
      * @param operation Operation currently being added.
      */
     public void addTaskWithoutPrinting(String input, String operation) {
         try {
-            Task temp = null;
-            switch (operation) {
-            case "todo" -> temp = new ToDo(input);
-
-            case "deadline" -> {
-                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
-                String strDate = input.split(" /by ")[1];
-                temp = new Deadline(strTaskName, strDate);
-            }
-
-            case "event" -> {
-                String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
-                String fromDate = input.split(" /")[1].replaceFirst("from ", "");
-                String toDate = input.split(" /")[2].replaceFirst("to ", "");
-                temp = new Event(strTaskName, fromDate, toDate);
-            }
-
-            default -> { }
-            }
-
+            Task temp = createTaskFromInput(input, operation);
             taskList.add(temp);
-
-        // Exception
         } catch (CodsworthMissingInputException e) {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -158,34 +180,9 @@ public class TaskList {
      */
     public String addTaskAndGetString(String input, String operation) {
         try {
-            Task temp = null;
-
-            switch (operation) {
-            case "todo" -> temp = new ToDo(input);
-
-            case "deadline" -> {
-                String strTaskName = input.split(" /by ")[0].replaceFirst("deadline ", "");
-                String strDate = input.split(" /by ")[1];
-                String strFormattedDate = formatCorrectDate(strDate);
-                temp = new Deadline(strTaskName, strFormattedDate);
-            }
-
-            case "event" -> {
-                String strTaskName = input.split(" /")[0].replaceFirst("event ", "");
-                String strFromDate = input.split(" /")[1].replaceFirst("from ", "");
-                String strToDate = input.split(" /")[2].replaceFirst("to ", "");
-                String strFormattedFromDate = formatCorrectDate(strFromDate);
-                String strFormattedToDate = formatCorrectDate(strToDate);
-                temp = new Event(strTaskName, strFormattedFromDate, strFormattedToDate);
-            }
-
-            default -> { }
-            }
-
+            Task temp = createTaskFromInput(input, operation);
             taskList.add(temp);
             return UiString.getNewTask(temp, taskList.size());
-
-            // Exception
         } catch (CodsworthMissingInputException e) {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -193,28 +190,19 @@ public class TaskList {
         }
     }
 
+
     /**
-     * Marks the task in the task list based on the index given as completed
+     * Used by storage to load task list. Marks the task in the task list based on the index given as completed. Delete
+     * not included since loading task list wouldn't have to delete any tasks.
      *
      * @param input Index of the task to be marked as completed.
      */
-    public void modifyTaskWithoutPrinting(int input)
-            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
-
-        try {
-            int intMarked = input - 1;
-            if (intMarked < 0 || intMarked >= taskList.size()) {
-                throw new IndexOutOfBoundsException();
-            }
-
-            taskList.get(intMarked).setDoneOrUndone("mark");
-
-        // Exceptions
-        } catch (IndexOutOfBoundsException exception) {
+    public void modifyTaskWithoutPrinting(int input) throws CodsworthOutOfBoundsException {
+        int intMarked = input - 1;
+        if (intMarked < 0 || intMarked >= taskList.size()) {
             throw new CodsworthOutOfBoundsException();
-        } catch (NumberFormatException exception) {
-            throw new CodsworthWrongFormatException();
         }
+        taskList.get(intMarked).setDoneOrUndone("mark");
     }
 
     /**
@@ -223,28 +211,18 @@ public class TaskList {
      * @param input Task name with its optional dates.
      * @param operation Operation currently being added.
      */
-    public String modifyTaskAndGetString(int input, String operation)
-            throws CodsworthWrongFormatException, CodsworthOutOfBoundsException {
-        try {
-            int intMarked = input - 1;
-            if (intMarked < 0 || intMarked >= taskList.size()) {
-                throw new IndexOutOfBoundsException();
-            }
-
-            if (operation.equals("delete")) {
-                taskList.remove(intMarked);
-                return UiString.getDeletedTaskString();
-            } else {
-                taskList.get(intMarked).setDoneOrUndone(operation);
-                return UiString.getModifiedTaskString(operation,
-                        taskList.get(intMarked), intMarked + 1, taskList.size());
-            }
-
-            // Exceptions
-        } catch (IndexOutOfBoundsException exception) {
+    public String modifyTaskAndGetString(int input, String operation) throws CodsworthOutOfBoundsException {
+        int intMarked = input - 1;
+        if (intMarked < 0 || intMarked >= taskList.size()) {
             throw new CodsworthOutOfBoundsException();
-        } catch (NumberFormatException exception) {
-            throw new CodsworthWrongFormatException();
+        }
+        if (operation.equals("delete")) {
+            taskList.remove(intMarked);
+            return UiString.getDeletedTaskString();
+        } else {
+            taskList.get(intMarked).setDoneOrUndone(operation);
+            return UiString.getModifiedTaskString(operation,
+                    taskList.get(intMarked), intMarked + 1, taskList.size());
         }
     }
 

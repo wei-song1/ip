@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import codsworth.codsworthexceptions.CodsworthWrongFormatException;
 import codsworth.task.TaskList;
 
 /**
@@ -17,6 +16,7 @@ public class Storage {
     private final String filePath;
     private final TaskList taskList;
     private final File file;
+    private final String ARGUMENT_SEPERATOR = "/spacer/";
 
     /**
      * Initializes storage with the file path provided.
@@ -49,19 +49,19 @@ public class Storage {
      */
     private void loadTaskListFromFile() {
         try (Scanner scanner = new Scanner(file)) {
-            int i = 1;
+            int index = 1;
             while (scanner.hasNextLine()) {
-                String[] parts = scanner.nextLine().split("/spacer/");
+                String[] parts = scanner.nextLine().split(ARGUMENT_SEPERATOR);
                 String isDone = parts[0];
                 String operation = parts[1];
                 String input = parts[2];
                 taskList.addTaskWithoutPrinting(input, operation);
                 if (isDone.equals("true")) {
-                    taskList.modifyTaskWithoutPrinting(i);
+                    taskList.modifyTaskWithoutPrinting(index);
                 }
-                i++;
+                index++;
             }
-        } catch (IOException | CodsworthWrongFormatException e) {
+        } catch (IOException e) {
             System.err.println("Error while loading task list: " + e.getMessage());
         }
     }

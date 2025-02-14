@@ -19,14 +19,14 @@ public class UiString {
     public static String getTaskList(ArrayList<Task> taskList) {
         if (taskList.isEmpty()) {
             return "There are no tasks available";
-        } else {
-            StringBuilder output = new StringBuilder();
-            output.append("Here are all the task(s) in your list:");
-            for (int j = 0; j < taskList.size(); j++) {
-                output.append("\n" + (j + 1) + ". " + taskList.get(j).toString());
-            }
-            return output.toString();
         }
+
+        StringBuilder output = new StringBuilder();
+        output.append("Here are all the task(s) in your list:");
+        for (int j = 0; j < taskList.size(); j++) {
+            output.append("\n" + (j + 1) + ". " + taskList.get(j).toString());
+        }
+        return output.toString();
     }
 
     /**
@@ -43,23 +43,19 @@ public class UiString {
         switch (operation) {
         case "mark":
             output.append("Nice, I've marked this task as completed!\n");
-            output.append(index + ". " + task.toString());
-            output.append("\nYou have " + size + " task(s) left.");
             break;
         case "unmark":
             output.append("I've unmarked this task as completed.\n");
-            output.append(index + ". " + task.toString());
-            output.append("\nYou have " + size + " task(s) left.");
             break;
         case "delete":
             output.append("I've deleted this task.\n");
-            output.append(index + ". " + task.toString());
-            output.append("\nYou have " + size + " task(s) left.");
             break;
         default:
             break;
         }
 
+        output.append(index + ". " + task.toString());
+        output.append("\nYou have " + size + " task(s) left.");
         return output.toString();
     }
 
@@ -74,13 +70,13 @@ public class UiString {
     public static String getMatchingString(ArrayList<String> matchingList) {
         if (matchingList.isEmpty()) {
             return "There are no matching tasks in your list";
-        } else {
-            String output = "Here are the matching task(s):";
-            for (String s : matchingList) {
-                output += "\n" + s;
-            }
-            return output;
         }
+
+        String output = "Here are the matching task(s):";
+        for (String s : matchingList) {
+            output += "\n" + s;
+        }
+        return output;
     }
 
     public static String getDeletedTaskString() {
