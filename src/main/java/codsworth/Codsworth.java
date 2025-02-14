@@ -17,6 +17,7 @@ public class Codsworth {
      * @param filePath Path name of the file for reading/writing.
      */
     public Codsworth(String filePath) {
+        assert !filePath.isEmpty() : "File path cannot be empty";
         this.storage = new Storage(filePath);
         this.taskList = storage.initialiseAndLoadTaskList();
         this.parser = new Parser(taskList, storage);
