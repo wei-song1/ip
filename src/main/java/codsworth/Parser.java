@@ -1,5 +1,6 @@
 package codsworth;
 
+import codsworth.codsworthexceptions.CodsworthDuplicateException;
 import codsworth.codsworthexceptions.CodsworthInvalidCommandException;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
@@ -81,7 +82,7 @@ public class Parser {
                 String output = taskList.addTaskAndGetString(strRest, strCommand);
                 storage.saveTaskList();
                 return output;
-            } catch (CodsworthMissingInputException | CodsworthInvalidDateException e) {
+            } catch (CodsworthMissingInputException | CodsworthInvalidDateException | CodsworthDuplicateException e) {
                 hasError = true;
                 return e.toString();
             }
@@ -96,6 +97,9 @@ public class Parser {
 
         case "find":
             return taskList.searchTaskAndGetString(strRest);
+
+        case "help":
+            return UiString.getHelpString();
 
         default:
             hasError = true;

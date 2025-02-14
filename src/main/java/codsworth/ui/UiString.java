@@ -83,12 +83,16 @@ public class UiString {
         return "The task has been deleted.";
     }
 
+    public static String getHelpString() {
+        return "Available commands\n\nmark, unmark, delete\ntodo, deadline, event\nfind\nreset, bye";
+    }
+
 
 
     // Exceptions
     public static String getInvalidCommandMessage() {
         return "Please input a valid command"
-                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, reset, bye";
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye";
     }
 
     public static String getInvalidDateMessage() {
@@ -118,5 +122,9 @@ public class UiString {
                 + "\n\nHint"
                 + "\nFormat: mark [integer]"
                 + "\nExample: mark 1";
+    }
+
+    public static String getDuplicateMessage() {
+        return "Please do not create duplicate tasks";
     }
 }

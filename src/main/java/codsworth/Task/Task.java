@@ -42,11 +42,11 @@ public abstract class Task {
     }
 
     /**
-     * Converts date string saved in command into proper date format
-     * Example: 01-01-2001 converts to 01 Jan 2001
+     * Converts date string saved in command into proper date format.
+     * Example: "01-01-2001" converts to "01 Jan 2001"
      *
-     * @param date Date in DD-MM-YYYY format
-     * @return Formatted string (Example: 01 Jan 2001)
+     * @param date Date in either "YYYY-MM-DD" or "YYYY-MM-DDTHH:MM" format.
+     * @return Formatted string (Example: "01 Jan 2001" or "01 Jan 2001 03:00PM")
      */
     public String convertDateToPrint(String date) {
         String output;

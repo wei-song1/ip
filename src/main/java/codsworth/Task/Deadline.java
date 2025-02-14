@@ -1,9 +1,5 @@
 package codsworth.task;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
  * Represents the deadline task. A <code>Task</code> object corresponds to a task represented by a name and a by date
  * e.g., <code>deadline [task name] /by DD-MM-YYYY</code>

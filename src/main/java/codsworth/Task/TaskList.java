@@ -2,6 +2,7 @@ package codsworth.task;
 
 import java.util.ArrayList;
 
+import codsworth.codsworthexceptions.CodsworthDuplicateException;
 import codsworth.codsworthexceptions.CodsworthInvalidDateException;
 import codsworth.codsworthexceptions.CodsworthMissingInputException;
 import codsworth.codsworthexceptions.CodsworthOutOfBoundsException;
@@ -116,6 +117,37 @@ public class TaskList {
     }
 
     /**
+     * Checks if a task is a duplicate based on its description and relevant dates.
+     *
+     * @param task Task object to check.
+     * @return True if the task is a duplicate, false otherwise.
+     */
+    private boolean isDuplicateTask(Task task) {
+        for (Task existingTask : taskList) {
+            if (task.getDescription().equals(existingTask.getDescription())) {
+                if (task instanceof Deadline deadlineTask) {
+                    if (existingTask instanceof Deadline existingDeadlineTask) {
+                        if (deadlineTask.by.equals(existingDeadlineTask.by)) {
+                            return true;
+                        }
+                    }
+                } else if (task instanceof Event eventTask) {
+                    if (existingTask instanceof Event existingEventTask) {
+                        if (eventTask.from.equals(existingEventTask.from) && eventTask.to.equals(existingEventTask.to)) {
+                            return true;
+                        }
+                    }
+                } else {
+                    if (task instanceof ToDo && existingTask instanceof ToDo) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Handles the task creation based on the operation and input.
      *
      * @param input Task name with its optional dates.
@@ -152,6 +184,10 @@ public class TaskList {
         default -> { }
         }
 
+        if (temp != null && isDuplicateTask(temp)) {
+            throw new CodsworthDuplicateException();
+        }
+
         return temp;
     }
 
@@ -169,6 +205,8 @@ public class TaskList {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CodsworthInvalidDateException();
+        } catch (CodsworthDuplicateException e) {
+            // Do nothing so that duplicate task doesn't get loaded and gets ignored instead
         }
     }
 
@@ -187,6 +225,8 @@ public class TaskList {
             throw new CodsworthMissingInputException();
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new CodsworthInvalidDateException();
+        } catch (CodsworthDuplicateException e) {
+            throw new CodsworthDuplicateException();
         }
     }
 

@@ -1,9 +1,5 @@
 package codsworth.task;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
  * Represents the event task. A <code>Task</code> object corresponds to a task
  * represented by a name, start date and end date
