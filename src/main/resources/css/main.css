@@ -17,12 +17,12 @@
 
 .button:hover {
     -fx-background-color: #36ff5a;
-    -fx-font-size: 18px;
+    /*-fx-font-size: 18px;*/
 }
 
 .button:pressed {
     -fx-background-color: #b1ffbf;
-    -fx-font-size: 20px;
+    /*-fx-font-size: 20px;*/
 }
 
 .scroll-pane,

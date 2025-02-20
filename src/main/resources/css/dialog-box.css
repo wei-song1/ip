@@ -4,6 +4,7 @@
     -fx-border-width: 0 2px 0 2px;
     -fx-background-radius: 0;
     -fx-border-radius: 0;
+    -fx-text-fill: #00EE00;
     -fx-effect: dropshadow(gaussian, rgba(0, 255, 0, 0.3), 10, 0.5, 0, 0);
 }
 
@@ -27,17 +28,23 @@
 }
 
 .delete-label {
-    -fx-border-color: #ffcc00 rgba(0, 238, 0, 0) #ffcc00 rgba(0, 238, 0, 0);
+    -fx-border-color: rgba(0, 238, 0, 0) rgb(255, 228, 123) rgba(0, 238, 0, 0) rgb(244, 219, 119);
+    -fx-border-width: 2px;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
     -fx-background-color: #ffb642;
-    -fx-text-fill: #ffdca8;
+    -fx-text-fill: #fff4e6;
     -fx-effect: dropshadow(gaussian, rgba(245, 196, 14, 0.3), 10, 0.5, 0, 0);
 }
 
 .error-label {
-    -fx-border-color: #ffaaaa rgba(0, 238, 0, 0) #ffaaaa rgba(0, 238, 0, 0);
+    -fx-border-color: rgba(0, 238, 0, 0) rgb(255, 76, 76) rgba(0, 238, 0, 0) rgb(245, 75, 75);
+    -fx-border-width: 0 2px 0 2px;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
     -fx-background-color: #ac1212;
-    -fx-text-fill: #ffaaaa;
-    -fx-effect: dropshadow(gaussian, rgba(166, 20, 21, 0.3), 10, 0.5, 0, 0);
+    -fx-text-fill: #ffe3e3;
+    -fx-effect: dropshadow(gaussian, rgba(255, 0, 0, 0.3), 10, 0.5, 0, 0);
 }
 
 #displayPicture {
