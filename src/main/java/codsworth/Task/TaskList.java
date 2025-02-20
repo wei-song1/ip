@@ -124,25 +124,33 @@ public class TaskList {
      */
     private boolean isDuplicateTask(Task task) {
         for (Task existingTask : taskList) {
-            if (task.getDescription().equals(existingTask.getDescription())) {
+            if (isSameDescription(task, existingTask)) {
                 if (task instanceof Deadline deadlineTask) {
-                    if (existingTask instanceof Deadline existingDeadlineTask) {
-                        if (deadlineTask.by.equals(existingDeadlineTask.by)) {
-                            return true;
-                        }
-                    }
+                    return isSameDeadline(deadlineTask, existingTask);
                 } else if (task instanceof Event eventTask) {
-                    if (existingTask instanceof Event existingEventTask) {
-                        if (eventTask.from.equals(existingEventTask.from) && eventTask.to.equals(existingEventTask.to)) {
-                            return true;
-                        }
-                    }
-                } else {
-                    if (task instanceof ToDo && existingTask instanceof ToDo) {
-                        return true;
-                    }
+                    return isSameEvent(eventTask, existingTask);
+                } else if (task instanceof ToDo) {
+                    return existingTask instanceof ToDo;
                 }
             }
+        }
+        return false;
+    }
+
+    private boolean isSameDescription(Task task, Task existingTask) {
+        return task.getDescription().equals(existingTask.getDescription());
+    }
+
+    private boolean isSameDeadline(Deadline deadlineTask, Task existingTask) {
+        if (existingTask instanceof Deadline existingDeadlineTask) {
+            return deadlineTask.by.equals(existingDeadlineTask.by);
+        }
+        return false;
+    }
+
+    private boolean isSameEvent(Event eventTask, Task existingTask) {
+        if (existingTask instanceof Event existingEventTask) {
+            return eventTask.from.equals(existingEventTask.from) && eventTask.to.equals(existingEventTask.to);
         }
         return false;
     }
@@ -156,7 +164,8 @@ public class TaskList {
      * @throws CodsworthInvalidDateException If the date format is invalid.
      * @throws CodsworthMissingInputException If the input is missing required fields.
      */
-    private Task createTaskFromInput(String input, String operation) throws CodsworthInvalidDateException, CodsworthMissingInputException {
+    private Task createTaskFromInput(String input, String operation)
+            throws CodsworthInvalidDateException, CodsworthMissingInputException {
         assert operation.equals("todo") | operation.equals("deadline") | operation.equals("event")
                 : "Invalid task type";
 
