@@ -70,5 +70,20 @@ public class ParserTest {
 
         assertEquals(parser.parseAndGetString("delete 1.0"), "Please input a valid command"
                 + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
+
+        assertEquals(parser.parseAndGetString("delete -"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
+
+        assertEquals(parser.parseAndGetString("mark -"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
+
+        assertEquals(parser.parseAndGetString("unmark -"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
+
+        assertEquals(parser.parseAndGetString("mark null"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
+
+        assertEquals(parser.parseAndGetString("delete null"), "Please input a valid command"
+                + "\n\nCommands: mark, unmark, delete, todo, deadline, event, find, reset, bye");
     }
 }
