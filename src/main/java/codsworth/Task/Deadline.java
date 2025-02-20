@@ -6,6 +6,8 @@ package codsworth.task;
  */
 public class Deadline extends Task {
     protected String by;
+    protected boolean hasTime = false;
+    protected String savedByDate;
 
     /**
      * Initalisation method of Deadline
@@ -18,6 +20,11 @@ public class Deadline extends Task {
         assert by != null : "Date must not be null";
         this.by = by;
         this.taskType = "deadline";
+
+        if (by.contains("T")) {
+            hasTime = true;
+            this.savedByDate = by.split("T")[0] + " " + by.split("T")[1].replace(":", "");
+        }
     }
 
     /**
@@ -27,6 +34,9 @@ public class Deadline extends Task {
      */
     @Override
     public String getDescription() {
+        if (hasTime) {
+            return super.getDescription() + " /by " + savedByDate;
+        }
         return super.getDescription() + " /by " + by;
     }
 

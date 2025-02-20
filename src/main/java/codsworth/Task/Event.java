@@ -9,6 +9,12 @@ public class Event extends Task {
     protected String from;
     protected String to;
 
+    protected boolean hasFromTime = false;
+    protected boolean hasToTime = false;
+
+    protected String fromTime;
+    protected String toTime;
+
     /**
      * Initalisation method of Event
      *
@@ -23,6 +29,16 @@ public class Event extends Task {
         this.from = from;
         this.to = to;
         this.taskType = "event";
+
+        if (from.contains("T")) {
+            hasFromTime = true;
+            fromTime = from.split("T")[0] + " " + from.split("T")[1].replace(":", "");
+        }
+
+        if (to.contains("T")) {
+            hasToTime = true;
+            toTime = to.split("T")[0] + " " + to.split("T")[1].replace(":", "");
+        }
     }
 
     /**
@@ -31,6 +47,18 @@ public class Event extends Task {
      * @return Event task in the same way as the user would have inputted
      */
     public String getDescription() {
+        if (hasFromTime && hasToTime) {
+            return super.getDescription() + " /from " + fromTime + " /to " + toTime;
+        }
+
+        if (hasFromTime && !hasToTime) {
+            return super.getDescription() + " /from " + fromTime + " /to " + to;
+        }
+
+        if (!hasFromTime && hasToTime) {
+            return super.getDescription() + " /from " + from + " /to " + toTime;
+        }
+
         return super.getDescription() + " /from " + from + " /to " + to;
     }
 
