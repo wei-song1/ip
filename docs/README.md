@@ -1,6 +1,6 @@
 # Codsworth User Guide
 
-![Codsworth](/docs/Ui.png)
+![Codsworth](./Ui.png)
 
 Need a handy companion to assist you after the end of all human life? 
 Codsworth is here for you!
